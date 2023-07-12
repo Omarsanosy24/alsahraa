@@ -1,7 +1,18 @@
 from django.db import models
 
 # Create your models here.
+class MainCategory(models.Model):
+    name_ar = models.CharField(max_length=100)
+    name_en = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name_ar
 class Category(models.Model):
+    mainCategory = models.ForeignKey(
+        MainCategory,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+        )
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
     def __str__(self):
