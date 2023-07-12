@@ -1,17 +1,12 @@
 from django.db import models
 
 # Create your models here.
-class MainCategory(models.Model):
-    name_ar = models.CharField(max_length=100)
-    name_en = models.CharField(max_length=100)
-    def __str__(self):
-        return self.name_ar
 class Category(models.Model):
     mainCategory = models.ForeignKey(
-        MainCategory,
+        "self",
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE,
         )
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
@@ -24,8 +19,12 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10,decimal_places=2)
     description_ar = models.TextField()
     description_en = models.TextField()
-    category = models.ForeignKey(Category,on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='products/',null=True,blank=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        limit_choices_to={"mainCategory__isnull":False}
+        )
+    image = models.ImageField(upload_to='products/',default='image/products/download.jpeg')
     def __str__(self):
         return self.name_ar
 

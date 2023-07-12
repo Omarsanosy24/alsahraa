@@ -1,16 +1,18 @@
 from rest_framework import serializers
 from .models import *
-class MainCategorySerializers(serializers.ModelSerializer):
 
-    class Meta:
-        model = MainCategory
-        fields = '__all__'
 
 class CategorySerializers(serializers.ModelSerializer):
-
+    mainCategory = serializers.SerializerMethodField()
     class Meta:
         model = Category
         fields = '__all__'
+    
+    def get_mainCategory(self,obj):
+        if obj.mainCategory:
+            return CategorySerializers(obj.mainCategory).data
+        return None
+
 
 
 class ProductsSerializers(serializers.ModelSerializer):
