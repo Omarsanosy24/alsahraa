@@ -1,5 +1,10 @@
 from rest_framework import serializers
 from .models import *
+class MainCategorySerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = MainCategory
+        fields = '__all__'
 
 class CategorySerializers(serializers.ModelSerializer):
 

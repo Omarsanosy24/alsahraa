@@ -11,6 +11,21 @@ from rest_framework.response import Response
 import random
 from rest_framework.decorators import action
 
+
+class MainCategoryView(ModelViewSet):
+    queryset = MainCategory.objects.all()
+    serializer_class = MainCategorySerializers
+    permission_classes = [IsAdminOrReadOnly]
+    @action(detail=False, methods=['POST'])
+    def create_new_data(self,request):
+        fake = Faker()
+        fakeAr = Faker('ar')
+        for i in range(10):
+            category = MainCategory.objects.create(
+                name_ar=fakeAr.name(),
+                name_en=fake.name(),
+            )
+        return Response("done")
 class CategoryView(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
