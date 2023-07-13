@@ -35,7 +35,7 @@ class Image(models.Model):
     def __str__(self) -> str:
         return self.product.name_ar
 class Banners(models.Model):
-    image = models.ImageField(upload_to='banners')
+    image = models.ImageField(upload_to='banners/')
 
     def __str__(self) -> str:
         return self.image
