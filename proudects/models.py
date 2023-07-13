@@ -24,11 +24,16 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         limit_choices_to={"mainCategory__isnull":False}
         )
-    image = models.ImageField(upload_to='products/',default='image/products/download.jpeg')
     def __str__(self):
         return self.name_ar
 
 
+class Image(models.Model):
+    image = models.ImageField(upload_to='products/', default='products/face2028-eb00-4b01-be75-a4fc537a10dc.jpeg')
+    product = models.ForeignKey(Product, on_delete= models.CASCADE, related_name='images')
+
+    def __str__(self) -> str:
+        return self.product.name_ar
 class Banners(models.Model):
     image = models.ImageField(upload_to='banners')
 

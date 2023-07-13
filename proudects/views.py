@@ -10,7 +10,7 @@ from faker import Faker
 from rest_framework.response import Response
 import random
 from rest_framework.decorators import action
-
+from media import products
 
 
 class CategoryView(ModelViewSet):
@@ -50,6 +50,9 @@ class ProductsView(ModelViewSet):
                 price=fake.random_int(100,1000),
                 category=random.choice(Category.objects.all())
             )
+            
+            Image.objects.create(product=pro, image= 'products/d3b04833-ce6b-4e06-b2cd-3405c413f61a.jpeg')
+            Image.objects.create(product=pro, image= 'products/face2028-eb00-4b01-be75-a4fc537a10dc.jpeg')
         return Response("done")
 
 
