@@ -123,6 +123,6 @@ jobs:
           username: ${{ env.SSH_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            cd alshraa/alsahraa && git pill && source ../myenv/bin/activate && python manage.py makemigrations && python manage.py migrate
+            cd alsahraa/alsahraa && git pill && source ../myenv/bin/activate && python manage.py makemigrations && python manage.py migrate
             sudo systemctl restrt gunicorn
             sudo systemctl restrt nginx
