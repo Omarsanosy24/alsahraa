@@ -123,5 +123,5 @@ jobs:
           username: ${{ env.SSH_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            sudo systemctl restart gunicorn
-            sudo systemctl restart nginx
+            sudo systemctl stop gunicorn
+            sudo systemctl stop nginx
