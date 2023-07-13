@@ -124,5 +124,5 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
             cd alsahraa/alsahraa && git pull && source ../myenv/bin/activate && python manage.py makemigrations && python manage.py migrate
-            sudo systemctl restrt gunicorn
-            sudo systemctl restrt nginx
+            sudo systemctl restart gunicorn
+            sudo systemctl restart nginx
