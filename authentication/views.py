@@ -39,7 +39,7 @@ class RegisterView(generics.GenericAPIView):
             return Response(
                 {
                     "status": False,
-                    "message": "this email is already exist",
+                    "message": serializer.errors,
                     "data": None,
                 },
                 status=status.HTTP_200_OK,
@@ -47,7 +47,7 @@ class RegisterView(generics.GenericAPIView):
         return Response(
                 {
                     "status": True,
-                    "message": "تم انشاء الحساب بنجاح",
+                    "message": ["تم انشاء الحساب بنجاح"],
                     "data": serializer.data,  
                 },
                 status=status.HTTP_200_OK,
