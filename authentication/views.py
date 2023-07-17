@@ -47,7 +47,7 @@ class RegisterView(generics.GenericAPIView):
         return Response(
                 {
                     "status": True,
-                    "message": ["تم انشاء الحساب بنجاح"],
+                    "message": "تم انشاء الحساب بنجاح",
                     "data": serializer.data,  
                 },
                 status=status.HTTP_200_OK,
@@ -91,7 +91,13 @@ class LoginAPIView(generics.GenericAPIView):
     def post(self, request):
 
         serializer = self.serializer_class(data=request.data, context={"request": request},)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            return Response(
+                 {
+                    "status": False,
+                    "message": serializer.errors,
+                    "data": None,
+                })
         if "token" in serializer.data.keys():
             return Response(
                 {
@@ -102,6 +108,7 @@ class LoginAPIView(generics.GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         else:
+            print('omar')
             r = serializer.data.get("email")
             return Response(
                 {"status": False, "message": r, "data": {}}, status=status.HTTP_200_OK

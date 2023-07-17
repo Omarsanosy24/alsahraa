@@ -23,13 +23,23 @@ from rest_framework import status
 from django.template.loader import render_to_string
 from rest_framework.authtoken.models import Token
 
-
+def get_error(request):
+    if request.LANGUAGE_CODE == 'ar':
+        return "الايميل خاطيء"
+    return "this email is incorrect"
+    
+def get_pass_error(request):
+    if request.LANGUAGE_CODE == 'ar':
+        return "كلمة السر خاطئة"
+    return "this password is incorrect"
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
     token = serializers.CharField(max_length=2000, min_length=3, read_only=True)
     class Meta:
         model = User
         fields = ["email", "username", "password", "phone","token",'kind']
+
+
 
     def validate(self, attrs):
         email = attrs.get("email", "")
@@ -66,24 +76,22 @@ class LoginSerializer(serializers.ModelSerializer):
             'token',
             'kind'
         ]
-
+    def validate_email(self, value):
+        if not User.objects.filter(email=value).exists():
+            raise serializers.ValidationError([get_error(self.context.get('request'))])
+    def validate_password(self, value):
+        email = self.initial_data.get('email')
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            if not user.check_password(value):
+                raise serializers.ValidationError([get_pass_error(self.context.get('request'))])
+        
     def validate(self, attrs):
-        email = attrs.get("email", "")
-        password = attrs.get("password", "")
+        email = self.initial_data.get('email')
+        password =self.initial_data.get('password')
         try:
             user = auth.authenticate(email=email, password=password)
-            if not user:
-                if not User.objects.filter(email=email).exists():
-                    return {
-                    "email": "your email is incorrect",
-                    "username": "user.username",
-                }
-                return {
-                    "email": " كلمة السر خاطئة",
-                    "username": "user.username",
-                }
-           
-                
+            self.validate_password(password)  
             tt, token = Token.objects.get_or_create(user=user)
             return {
                 "email": user.email,
@@ -94,6 +102,7 @@ class LoginSerializer(serializers.ModelSerializer):
             return super().validate(attrs)
 
         except Exception as e:
+            print(e)
             raise serializers.ValidationError(str(e))
 
 

@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 from django.contrib.auth.models import (
@@ -40,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('worker','worker')
     ]
     username = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255,unique=True, db_index=True)
+    email = models.EmailField(max_length=255,unique=True, db_index=True , error_messages={'unique':_("this email is already exist ")})
     is_verified = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -50,9 +52,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     kind = models.CharField(max_length=6 , choices=choice, null=True, blank=True)
 
 
-
     USERNAME_FIELD = ('email')
-    REQUIRED_FIELDS = ['username','phone']
+    REQUIRED_FIELDS = ['username']
 
     objects = UserManager()
 
