@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
-    kind = models.CharField(max_length=6 , choices=choice, null=True, blank=True)
+    kind = models.CharField(max_length=6 , choices=choice, default='worker')
 
 
     USERNAME_FIELD = ('email')
