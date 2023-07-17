@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     "rest_framework_api_key",
-    "payment"
+    "payment",
+    'ckeditor',
 ]
 import sys
 sys.setrecursionlimit(10000)
@@ -132,7 +133,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+        'filebrowserWindowWidth': 800,
+        'filebrowserWindowHeight': 500,
+        'filebrowserUploadUrl': '/ckeditor/upload/'
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
