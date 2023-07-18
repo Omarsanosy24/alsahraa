@@ -18,9 +18,22 @@ class ImageSerializers(serializers.ModelSerializer):
         model = Image
         fields = '__all__'
 
+class sizesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = sizes
+        fields = '__all__'
+class colorSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = color
+        fields = '__all__'
+
+
+
 class ProductsSerializers(serializers.ModelSerializer):
     category = CategorySerializers(read_only=True)
     images = ImageSerializers(many=True, read_only=True)
+    colors = colorSerializers(many=True, read_only=True)
+    sizes = sizesSerializers(many=True, read_only=True)
 
     class Meta:
         model = Product

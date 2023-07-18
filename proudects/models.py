@@ -27,7 +27,22 @@ class Product(models.Model):
         )
     def __str__(self):
         return self.name_ar
+class color(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='colors')
+    color_ar = models.CharField(max_length=100)
+    color_en = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.color_ar
+
+class sizes(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='sizes')
+    size_ar = models.CharField(max_length=100)
+    size_en = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.size_ar
+    
 
 class Image(models.Model):
     image = models.ImageField(upload_to='products/', default='products/face2028-eb00-4b01-be75-a4fc537a10dc.jpeg')
