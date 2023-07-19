@@ -31,9 +31,9 @@ class colorSerializers(serializers.ModelSerializer):
 
 class ProductsSerializers(serializers.ModelSerializer):
     category = CategorySerializers(read_only=True)
-    images = ImageSerializers(many=True, read_only=True)
-    colors = colorSerializers(many=True, read_only=True)
-    sizes = sizesSerializers(many=True, read_only=True)
+    images = ImageSerializers(many=True)
+    colors = colorSerializers(many=True)
+    sizes = sizesSerializers(many=True)
 
     class Meta:
         model = Product
