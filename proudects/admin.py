@@ -18,3 +18,4 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Category)
 admin.site.register(Banners)
+admin.site.register(Rate)

@@ -60,3 +60,9 @@ class BannersView(ModelViewSet):
     queryset = Banners.objects.all()
     serializer_class = BannersSerializers
     permission_classes = [IsAdminOrReadOnly]
+
+class RateView(ModelViewSet):
+    queryset = Rate.objects.all()
+    serializer_class = RateSerializers
+    permission_classes = [IsAuthenticated]
+    http_method_names=['get','post']

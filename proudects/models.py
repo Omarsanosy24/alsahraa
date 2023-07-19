@@ -1,6 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-
+from authentication.models import User
 # Create your models here.
 class Category(models.Model):
     mainCategory = models.ForeignKey(
@@ -26,6 +26,19 @@ class Product(models.Model):
         )
     def __str__(self):
         return self.name_ar
+
+class Rate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='rates')
+    rate = models.IntegerField(default=0)
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+    def __str__(self):
+        return self.product.name_ar
+
+
 class color(models.Model):
     products = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='colors')
     color_ar = models.CharField(max_length=100)
