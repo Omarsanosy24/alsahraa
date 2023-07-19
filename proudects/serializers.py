@@ -46,7 +46,10 @@ class ProductsSerializers(serializers.ModelSerializer):
 
     def get_rateNum(self, obj):
         values = Rate.objects.filter(product = obj).values_list('rate',flat=True)
-        return sum(values)/len(values)
+        try:
+            return sum(values)/len(values)
+        except:
+            return None
 
 
 
