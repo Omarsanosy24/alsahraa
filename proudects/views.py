@@ -34,7 +34,7 @@ class ProductsView(ModelViewSet):
     filterset_fields= ['category']
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['name_ar','name_en','des_ar',"des_en"]
-    # permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
