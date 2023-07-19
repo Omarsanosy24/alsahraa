@@ -23,7 +23,6 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        limit_choices_to={"mainCategory__isnull":False}
         )
     def __str__(self):
         return self.name_ar
