@@ -161,7 +161,7 @@ class LogoutSerializer(serializers.Serializer):
 class UserSer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','phone','kind','email']
+        fields = ['username','phone','kind','email','is_staff']
 
 class TokenSerializers(serializers.ModelSerializer):
     user= UserSer(read_only=True)
