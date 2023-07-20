@@ -39,7 +39,7 @@ class ProductsSerializers(serializers.ModelSerializer):
     category_patch = serializers.IntegerField(write_only=True, required=False)
     images = ImageSerializers(many=True,read_only=True)
     colors = colorSerializers(many=True)
-    sizes = sizesSerializers(many=True,read_only=True)
+    sizes = sizesSerializers(many=True)
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
     class Meta:
@@ -54,6 +54,7 @@ class ProductsSerializers(serializers.ModelSerializer):
             return None
     def update(self, instance, validated_data):
         colors_data = validated_data.pop('colors', None)
+        sizes_data = validated_data.pop('sizes', None)
         cat = validated_data.pop('category_patch',None)
         if colors_data:
             instance.colors.all().delete()
@@ -69,6 +70,10 @@ class ProductsSerializers(serializers.ModelSerializer):
         if cat:
             instance.category = Category.objects.get(id=cat)
             instance.save()
+        if sizes_data:
+            instance.sizes.all().delete()
+            for color in sizes_data:
+                instance.sizes.create(color_ar=color['size_ar'], color_en=color["size_en"])
         return super().update(instance, validated_data)
 
 
