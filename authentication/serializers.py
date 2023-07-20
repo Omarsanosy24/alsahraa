@@ -97,7 +97,8 @@ class LoginSerializer(serializers.ModelSerializer):
                 "email": user.email,
                 "username": user.username,
                 "token": tt.key,
-                'kind':user.kind
+                'kind':user.kind,
+                'is_staff':user.is_staff
             }
             return super().validate(attrs)
 
