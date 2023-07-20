@@ -33,7 +33,7 @@ class ProductsView(ModelViewSet):
     serializer_class = ProductsSerializers
     filterset_fields= ['category','category__mainCategory']
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    search_fields = ['name_ar','name_en','des_ar',"des_en"]
+    search_fields = ['name_ar','name_en','description_ar',"description_en"]
     # permission_classes = [IsAdminOrReadOnly]
     
     @action(detail=False, methods=['POST'])
