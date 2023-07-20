@@ -29,16 +29,18 @@ class colorSerializers(serializers.ModelSerializer):
 
 class RateSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    username = serializers.CharField(source='user.username')
     class Meta:
         model = Rate
         fields = '__all__'
         
 class ProductsSerializers(serializers.ModelSerializer):
     category = CategorySerializers(read_only=True)
-    images = ImageSerializers(many=True)
+    category_patch = serializers.IntegerField(write_only=True, required=False)
+    images = ImageSerializers(many=True,read_only=True)
     colors = colorSerializers(many=True)
-    sizes = sizesSerializers(many=True)
-    rateNum = serializers.SerializerMethodField()
+    sizes = sizesSerializers(many=True,read_only=True)
+    rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
     class Meta:
         model = Product
@@ -50,7 +52,24 @@ class ProductsSerializers(serializers.ModelSerializer):
             return sum(values)/len(values)
         except:
             return None
-
+    def update(self, instance, validated_data):
+        colors_data = validated_data.pop('colors', None)
+        cat = validated_data.pop('category_patch',None)
+        if colors_data:
+            instance.colors.all().delete()
+            for color in colors_data:
+                color_id = color.pop('id', None)
+                if color_id:
+                    color_inst = instance.colors.filter(id=color_id).first()
+                    color_inst.color_ar = color.get('color_ar', color_inst.color_ar)
+                    color_inst.color_en = color.get('color_en', color_inst.color_en)
+                    color_inst.save()
+                else:
+                    instance.colors.create(color_ar=color['color_ar'], color_en=color["color_en"])
+        if cat:
+            instance.category = Category.objects.get(id=cat)
+            instance.save()
+        return super().update(instance, validated_data)
 
 
 
