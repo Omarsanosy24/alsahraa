@@ -14,6 +14,7 @@ from media import products
 from main_.views import ModelViewSet
 
 class CategoryView(ModelViewSet):
+    
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
     permission_classes = [IsAdminOrReadOnly]
