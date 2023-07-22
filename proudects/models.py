@@ -14,6 +14,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name_ar
 
+class wesom(models.Model):
+    name_ar = models.CharField(max_length=100)
+    name_en = models.CharField(max_length=100)
+    def __str__(self) -> str:
+        return self.name_ar
+
 class Product(models.Model):
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
@@ -25,6 +31,7 @@ class Product(models.Model):
         Category,
         on_delete=models.CASCADE,
         )
+    wesom = models.ManyToManyField(wesom, blank=True)
     def __str__(self):
         return self.name_ar
 

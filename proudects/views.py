@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from rest_framework.viewsets import ModelViewSet
+# from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import *
@@ -11,7 +11,7 @@ from rest_framework.response import Response
 import random
 from rest_framework.decorators import action
 from media import products
-
+from main_.views import ModelViewSet
 
 class CategoryView(ModelViewSet):
     queryset = Category.objects.all()
