@@ -17,6 +17,7 @@ class Category(models.Model):
 class Product(models.Model):
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
+    old_price = models.DecimalField(max_digits=10,decimal_places=2, null=True, blank=True)
     price = models.DecimalField(max_digits=10,decimal_places=2)
     description_ar = RichTextField()
     description_en = RichTextField()
