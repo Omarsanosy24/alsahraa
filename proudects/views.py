@@ -34,8 +34,8 @@ class ProductsView(ModelViewSet):
     serializer_class = ProductsSerializers
     filterset_fields= ['category','category__mainCategory']
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    search_fields = ['name_ar','name_en','description_ar',"description_en",'category','category__mainCategory']
-    # permission_classes = [IsAdminOrReadOnly]
+    search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en",'category__mainCategory__name_en']
+    permission_classes = [IsAdminOrReadOnly]
     
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
