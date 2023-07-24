@@ -48,6 +48,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
+        related_name='products'
         )
     tags = models.ManyToManyField(Tags, blank=True)
     wishlist = models.ManyToManyField(User,blank=True)

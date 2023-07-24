@@ -9,6 +9,8 @@ from .permission import *
 from faker import Faker
 from rest_framework.response import Response
 import random
+from django.db.models import Q
+
 from rest_framework.decorators import action
 from media import products
 from main_.views import ModelViewSet
@@ -32,11 +34,9 @@ class CategoryView(ModelViewSet):
 class ProductsView(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductsSerializers
-    filterset_fields= ['category','category__mainCategory']
+    filterset_fields= ['category','category__subCategory']
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en"]
-    # permission_classes = [IsAdminOrReadOnly]
-    
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
         fake = Faker()
@@ -73,5 +73,5 @@ class RateView(ModelViewSet):
 class ImageView(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializers
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     http_method_names=['patch','get']

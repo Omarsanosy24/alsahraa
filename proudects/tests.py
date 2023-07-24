@@ -129,3 +129,5 @@ for course in data:
 
 # طباعة بيانات الأقسام المرتبة
 print(json.dumps(data, indent=2))
+
+
