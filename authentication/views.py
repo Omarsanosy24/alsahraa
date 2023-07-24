@@ -216,3 +216,21 @@ class TokenView(generics.GenericAPIView):
             )
         serializers = self.serializer_class(token)
         return Response(serializers.data, status=status.HTTP_200_OK)
+    
+
+class UserView(generics.GenericAPIView):
+    serializer_class = UserSer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request):
+        user = request.user
+        serializers = self.serializer_class(user)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+    
+    def patch(self,request):
+        user = request.user
+        serializers = self.serializer_class(user, data=request.data, partial=True)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_200_OK)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)

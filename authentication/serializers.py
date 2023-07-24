@@ -162,7 +162,16 @@ class LogoutSerializer(serializers.Serializer):
 class UserSer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','phone','kind','email','is_staff']
+        fields = ['username','phone','kind','email','is_staff','image']
+        read_only_fields =['id','email','kind','is_staff']
+
+    def update(self,instance,validated_data):
+        instance.username = validated_data.get('username',instance.username)
+        instance.image = validated_data.get('image',instance.image)
+        instance.phone = validated_data.get('phone',instance.phone)
+        instance.save()
+        return instance
+
 
 class TokenSerializers(serializers.ModelSerializer):
     user= UserSer(read_only=True)
