@@ -14,7 +14,7 @@ class sizesAdmin(admin.StackedInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ImageAdmin,sizesAdmin,colorAdmin]
 
-admin.site.register(wesom)
+admin.site.register(Tags)
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Category)
 admin.site.register(Banners)

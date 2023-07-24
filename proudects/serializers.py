@@ -3,16 +3,21 @@ from .models import *
 from authentication.serializers import UserSer
 
 class CategorySerializers(serializers.ModelSerializer):
-    mainCategory = serializers.SerializerMethodField()
+    subCategory = serializers.SerializerMethodField()
     class Meta:
         model = Category
         fields = '__all__'
     
-    def get_mainCategory(self,obj):
-        if obj.mainCategory:
-            return CategorySerializers(obj.mainCategory).data
+    def get_subCategory(self,obj):
+        if obj.subCate:
+            query = obj.subCate.all()
+            return CategorySerializers(query,many=True).data
         return None
-
+class MainCategorySerializers(serializers.ModelSerializer):
+    subCate = CategorySerializers(source = 'mainCate', many=True, read_only=True)
+    class Meta:
+        model = MainCategory
+        fields = '__all__'
 class ImageSerializers(serializers.ModelSerializer):
     class Meta:
         model = Image
@@ -37,7 +42,8 @@ class RateSerializers(serializers.ModelSerializer):
 class ProductsSerializers(serializers.ModelSerializer):
     category = CategorySerializers(read_only=True)
     category_patch = serializers.IntegerField(write_only=True, required=False)
-    images = ImageSerializers(many=True,read_only=True)
+    images = ImageSerializers(many=True)
+    # image = serializers.FileField(write_only=True)
     colors = colorSerializers(many=True)
     sizes = sizesSerializers(many=True)
     rateNum = serializers.SerializerMethodField(read_only=True)

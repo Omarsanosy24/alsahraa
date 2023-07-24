@@ -2,19 +2,37 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from authentication.models import User
 # Create your models here.
-class Category(models.Model):
-    mainCategory = models.ForeignKey(
-        "self",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-        )
+from django.core.exceptions import ValidationError
+
+class MainCategory(models.Model):
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
     def __str__(self):
         return self.name_ar
 
-class wesom(models.Model):
+class Category(models.Model):
+    mainCategory = models.ForeignKey(
+        MainCategory,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="mainCate"
+        )
+    subCategory = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="subCate"
+        )
+    name_ar = models.CharField(max_length=100)
+    name_en = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name_ar
+    def clean(self):
+        if self.mainCategory and self.subCategory:
+            raise ValidationError('You can only select one category')
+class Tags(models.Model):
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
     def __str__(self) -> str:
@@ -31,7 +49,8 @@ class Product(models.Model):
         Category,
         on_delete=models.CASCADE,
         )
-    wesom = models.ManyToManyField(wesom, blank=True)
+    tags = models.ManyToManyField(Tags, blank=True)
+    wishlist = models.ManyToManyField(User,blank=True)
     def __str__(self):
         return self.name_ar
 
@@ -71,8 +90,13 @@ class Image(models.Model):
     def __str__(self) -> str:
         return self.product.name_ar
 class Banners(models.Model):
+    choices = [
+        ('fr','first'),
+        ('sc','second'),
+        ('th','third'),
+    ]
     image = models.ImageField(upload_to='banner/')
-
+    place = models.CharField(choices=choices, max_length=8, default='first')
     def __str__(self) -> str:
         return self.image
 

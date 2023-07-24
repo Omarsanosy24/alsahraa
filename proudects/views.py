@@ -15,8 +15,8 @@ from main_.views import ModelViewSet
 
 class CategoryView(ModelViewSet):
     
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializers
+    queryset = MainCategory.objects.all()
+    serializer_class = MainCategorySerializers
     permission_classes = [IsAdminOrReadOnly]
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
@@ -34,8 +34,8 @@ class ProductsView(ModelViewSet):
     serializer_class = ProductsSerializers
     filterset_fields= ['category','category__mainCategory']
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en",'category__mainCategory__name_en']
-    permission_classes = [IsAdminOrReadOnly]
+    search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en"]
+    # permission_classes = [IsAdminOrReadOnly]
     
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
@@ -61,9 +61,17 @@ class BannersView(ModelViewSet):
     queryset = Banners.objects.all()
     serializer_class = BannersSerializers
     permission_classes = [IsAdminOrReadOnly]
+    filterset_fields= ['place']
+    filter_backends = [ DjangoFilterBackend]
 
 class RateView(ModelViewSet):
     queryset = Rate.objects.all()
     serializer_class = RateSerializers
     permission_classes = [IsAuthenticated]
     http_method_names=['get','post']
+
+class ImageView(ModelViewSet):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializers
+    permission_classes = [IsAdminUser]
+    http_method_names=['patch','get']
