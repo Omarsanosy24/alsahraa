@@ -1,8 +1,10 @@
+import random
 from django.db import models
 from ckeditor.fields import RichTextField
 from authentication.models import User
 # Create your models here.
 from django.core.exceptions import ValidationError
+from django.db.models import Count
 
 class MainCategory(models.Model):
     name_ar = models.CharField(max_length=100)
@@ -50,11 +52,13 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name='products'
         )
+    star = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tags, blank=True)
     wishlist = models.ManyToManyField(User,blank=True)
     def __str__(self):
         return self.name_ar
-
+    
+    
 class Rate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='rates')

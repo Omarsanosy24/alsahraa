@@ -25,7 +25,7 @@ class ImageSerializers(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
-        read_only_fields = ['id','product']
+        # read_only_fields = ['id','product']
 
 class sizesSerializers(serializers.ModelSerializer):
     class Meta:
@@ -48,11 +48,12 @@ class RateSerializers(serializers.ModelSerializer):
 class ProductsSerializers(serializers.ModelSerializer):
     category = CategorySerializers(read_only=True)
     category_patch = serializers.IntegerField(write_only=True)
-    images = ImageSerializers(many=True)
+    images = ImageSerializers(many=True,read_only=True)
     colors = colorSerializers(many=True)
     sizes = sizesSerializers(many=True)
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
+    wish = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = '__all__'
@@ -64,6 +65,12 @@ class ProductsSerializers(serializers.ModelSerializer):
             return sum(values)/len(values)
         except:
             return None
+    def get_wish(self,obj):
+        user = self.context['request'].user
+        if user:
+            if user in obj.wishlist.all():
+                return True
+        return False
     def update(self, instance, validated_data):
         colors_data = validated_data.pop('colors', None)
         sizes_data = validated_data.pop('sizes', None)

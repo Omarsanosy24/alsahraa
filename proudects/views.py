@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import *
+from django.db.models import Count
+
 # from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend
@@ -34,9 +36,28 @@ class CategoryView(ModelViewSet):
 class ProductsView(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductsSerializers
-    filterset_fields= ['category','category__subCategory']
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en"]
+    def get_queryset(self):
+        query = self.queryset
+        category_id = self.request.query_params.get('category', None)
+        MainCategory_id = self.request.query_params.get('MainCategory', None)
+
+        if category_id is not None:
+            query = query.filter(Q(
+                category_id=category_id
+                ) | Q(
+                category__subCategory=category_id
+                )
+                )
+        if MainCategory_id is not None:
+            query = query.filter(Q(
+                category__subCategory__mainCategory=MainCategory_id
+                ) | Q(
+                category__mainCategory=MainCategory_id
+                ))
+        return query
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
         fake = Faker()
@@ -55,7 +76,10 @@ class ProductsView(ModelViewSet):
             Image.objects.create(product=pro, image= 'products/d3b04833-ce6b-4e06-b2cd-3405c413f61a.jpeg')
             Image.objects.create(product=pro, image= 'products/face2028-eb00-4b01-be75-a4fc537a10dc.jpeg')
         return Response("done")
-
+    @action(detail=False, methods=['GET'])
+    def get_Varied_data(self,request):
+        serializers = self.serializer_class(Product.objects.filter(star=True),many=True, context = {'request':request})
+        return Response(serializers.data)
 
 class BannersView(ModelViewSet):
     queryset = Banners.objects.all()
@@ -74,4 +98,4 @@ class ImageView(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializers
     permission_classes = [IsAdminUser]
-    http_method_names=['patch','get']
+    # http_method_names=['patch','get']
