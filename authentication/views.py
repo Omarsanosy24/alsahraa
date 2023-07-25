@@ -229,7 +229,8 @@ class UserView(generics.GenericAPIView):
     
     def patch(self,request):
         user = request.user
-        serializers = self.serializer_class(user, data=request.data, partial=True)
+        serializers = self.serializer_class(user, data=request.data,
+                                            partial=True, context={'request':request})
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data, status=status.HTTP_200_OK)

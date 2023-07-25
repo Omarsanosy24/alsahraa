@@ -160,17 +160,28 @@ class LogoutSerializer(serializers.Serializer):
             self.fail("bad_token")
 
 class UserSer(serializers.ModelSerializer):
+    old_password = serializers.CharField(write_only=True, required=False)
+    new_password = serializers.CharField(write_only=True, min_length=8)
     class Meta:
         model = User
-        fields = ['username','phone','kind','email','is_staff','image']
+        fields = ['username','phone','kind','email','is_staff','image','old_password','new_password']
         read_only_fields =['id','email','kind','is_staff']
 
     def update(self,instance,validated_data):
-        instance.username = validated_data.get('username',instance.username)
-        instance.image = validated_data.get('image',instance.image)
-        instance.phone = validated_data.get('phone',instance.phone)
-        instance.save()
-        return instance
+        user = self.context['request'].user
+        if not validated_data.get('old_password'):
+            raise serializers.ValidationError ({'old_password':'this filed is required'})
+        if user.check_password(validated_data.get('old_password')):
+            instance.username = validated_data.get('username',instance.username)
+            instance.image = validated_data.get('image',instance.image)
+            instance.phone = validated_data.get('phone',instance.phone)
+            if validated_data.get('new_password'):
+                user.set_password(validated_data.get('new_password'))
+                user.save()
+            return instance
+        else:
+            raise serializers.ValidationError ({'old_password':'incorrect password'})
+
 
 
 class TokenSerializers(serializers.ModelSerializer):
