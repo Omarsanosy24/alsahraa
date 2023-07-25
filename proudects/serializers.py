@@ -41,6 +41,7 @@ class colorSerializers(serializers.ModelSerializer):
 class RateSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     username = serializers.CharField(source='user.username')
+    image = serializers.ImageField(source = 'user.image')
     class Meta:
         model = Rate
         fields = '__all__'
