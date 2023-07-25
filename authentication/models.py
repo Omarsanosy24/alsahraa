@@ -41,6 +41,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('admin','admin'),
         ('worker','worker')
     ]
+    kind_ = [
+        ('ml','male'),
+        ('fm','female')
+    ]
     username = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,unique=True, db_index=True , error_messages={'unique':_("this email is already exist ")})
     is_verified = models.BooleanField(default=True)
@@ -49,9 +53,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
-    kind = models.CharField(max_length=6 , choices=choice, default='worker')
+    kind = models.CharField(max_length=6 , choices=choice, null=True, blank=True)
     image = models.ImageField(null=True,blank=True)
-
+    BirthOfDate = models.DateField(null=True,blank=True)
+    sex = models.CharField(max_length=7, choices=kind_, null=True, blank=True)
 
     USERNAME_FIELD = ('email')
     REQUIRED_FIELDS = ['username']

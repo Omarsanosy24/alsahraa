@@ -164,7 +164,12 @@ class UserSer(serializers.ModelSerializer):
     new_password = serializers.CharField(write_only=True, min_length=8)
     class Meta:
         model = User
-        fields = ['username','phone','kind','email','is_staff','image','old_password','new_password']
+        fields = [
+            'username','phone','kind',
+            'email','is_staff','image',
+            'old_password','new_password',
+            'BirthOfDate','sex'
+            ]
         read_only_fields =['id','email','kind','is_staff']
 
     def update(self,instance,validated_data):
@@ -175,6 +180,8 @@ class UserSer(serializers.ModelSerializer):
             instance.username = validated_data.get('username',instance.username)
             instance.image = validated_data.get('image',instance.image)
             instance.phone = validated_data.get('phone',instance.phone)
+            instance.sex = validated_data.get('sex',instance.phone)
+            instance.BirthOfDate = validated_data.get('BirthOfDate',instance.phone)
             if validated_data.get('new_password'):
                 user.set_password(validated_data.get('new_password'))
                 user.save()
