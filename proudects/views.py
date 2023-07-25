@@ -99,3 +99,8 @@ class ImageView(ModelViewSet):
     serializer_class = ImageSerializers
     permission_classes = [IsAdminUser]
     # http_method_names=['patch','get']
+
+class SubCatView(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializers
+    permission_classes = [IsAdminOrReadOnly]
