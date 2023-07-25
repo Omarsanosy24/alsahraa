@@ -65,7 +65,8 @@ class ProductsSerializers(serializers.ModelSerializer):
             'old_price','price',
             'star','tags',
             'description_ar',
-            'description_en'
+            'description_en',
+            'category_patch'
             ]
         read_only_fields = ['wishlist']
 
