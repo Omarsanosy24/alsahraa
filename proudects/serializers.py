@@ -61,7 +61,7 @@ class ProductsSerializers(serializers.ModelSerializer):
             'images', 'colors',
             'sizes','rateNum',
             'rates','wish',
-            'name_ar','name_en'
+            'name_ar','name_en',
             'old_price','price',
             'star','tags',
             'description_ar',
