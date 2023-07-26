@@ -40,8 +40,8 @@ class colorSerializers(serializers.ModelSerializer):
         read_only_fields = ['id','products']
 class RateSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    username = serializers.CharField(source='user.username')
-    image = serializers.ImageField(source = 'user.image')
+    username = serializers.CharField(source='user.username',read_only=True)
+    image = serializers.ImageField(source = 'user.image',read_only=True)
     class Meta:
         model = Rate
         fields = '__all__'
