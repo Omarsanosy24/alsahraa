@@ -177,15 +177,12 @@ class UserSer(serializers.ModelSerializer):
         if not validated_data.get('old_password'):
             raise serializers.ValidationError ({'old_password':'this filed is required'})
         if user.check_password(validated_data.get('old_password')):
-            instance.username = validated_data.get('username',instance.username)
-            instance.image = validated_data.get('image',instance.image)
-            instance.phone = validated_data.get('phone',instance.phone)
-            instance.sex = validated_data.get('sex',instance.phone)
-            instance.BirthOfDate = validated_data.get('BirthOfDate',instance.phone)
             if validated_data.get('new_password'):
                 user.set_password(validated_data.get('new_password'))
                 user.save()
-            return instance
+            S = super().update(instance,validated_data)
+            
+            return S
         else:
             raise serializers.ValidationError ({'old_password':'incorrect password'})
 
