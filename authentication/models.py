@@ -52,10 +52,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
+    phone = models.CharField(max_length=25, null=True, blank=True)
     kind = models.CharField(max_length=6 , choices=choice, null=True, blank=True)
     image = models.ImageField(null=True,blank=True)
-    BirthOfDate = models.DateField(null=True,blank=True)
+    BirthOfDate = models.CharField(max_length=100,null=True,blank=True)
     sex = models.CharField(max_length=7, choices=kind_, null=True, blank=True)
 
     USERNAME_FIELD = ('email')
