@@ -160,8 +160,8 @@ class LogoutSerializer(serializers.Serializer):
             self.fail("bad_token")
 
 class UserSer(serializers.ModelSerializer):
-    old_password = serializers.CharField(write_only=True, required=False)
-    new_password = serializers.CharField(write_only=True, min_length=8)
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True, min_length=8, required=False)
     class Meta:
         model = User
         fields = [
