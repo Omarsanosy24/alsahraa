@@ -42,8 +42,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('worker','worker')
     ]
     kind_ = [
-        ('ml','male'),
-        ('fm','female')
+        ('male','male'),
+        ('female','female')
     ]
     username = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,unique=True, db_index=True , error_messages={'unique':_("this email is already exist ")})
