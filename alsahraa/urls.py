@@ -31,21 +31,10 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 urlpatterns = [
-   #  path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-   #  path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   #  path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-   path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    # Optional UI:
-    path(
-        "swagger/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
-    path(
-        "api/schema/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
-        name="redoc",
-    ),
+   path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('', include('proudects.urls')),
