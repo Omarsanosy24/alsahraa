@@ -43,14 +43,13 @@ class ProductsView(ModelViewSet):
         query = self.queryset
         MainCategory_id = self.request.query_params.get('MainCategory', None)
         category_id = self.request.query_params.get('category', None)
-        if MainCategory_id is not None and not "":
+        if MainCategory_id is not None and not " ":
             query = query.filter(Q(
                 category__subCategory__mainCategory=MainCategory_id
                 ) | Q(
                 category__mainCategory=MainCategory_id
                 ))
-            
-        if category_id is not None and not "":
+        if category_id is not None and not " ":
             query = query.filter(Q(
                 category_id=category_id
                 ) | Q(
