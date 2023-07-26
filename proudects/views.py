@@ -41,21 +41,22 @@ class ProductsView(ModelViewSet):
     search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en"]
     def get_queryset(self):
         query = self.queryset
-        category_id = self.request.query_params.get('category', None)
         MainCategory_id = self.request.query_params.get('MainCategory', None)
-        if category_id is not None and not " ":
-            query = query.filter(Q(
-                category_id=category_id
-                ) | Q(
-                category__subCategory=category_id
-                )
-                )
+        category_id = self.request.query_params.get('category', None)
         if MainCategory_id is not None and not "":
             query = query.filter(Q(
                 category__subCategory__mainCategory=MainCategory_id
                 ) | Q(
                 category__mainCategory=MainCategory_id
                 ))
+            
+        if category_id is not None and not "":
+            query = query.filter(Q(
+                category_id=category_id
+                ) | Q(
+                category__subCategory=category_id
+                )
+                )
         return query
     @action(detail=False, methods=['POST'])
     def create_new_data(self,request):
