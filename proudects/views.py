@@ -79,6 +79,25 @@ class ProductsView(ModelViewSet):
     def get_Varied_data(self,request):
         serializers = self.serializer_class(Product.objects.filter(star=True),many=True, context = {'request':request})
         return Response(serializers.data)
+    
+    @action(detail=False, permission_classes=[IsAuthenticated], methods=['GET'])
+    def WishView(self,request):
+        user = request.user
+        wish =  user.wish.all()
+        serializers = self.serializer_class(wish,many=True, context = {'request':request})
+        return Response(serializers.data)
+    @action(detail=False, permission_classes=[IsAuthenticated], methods=['POST'] , serializer_class= AddToWishListSer)
+    def AddToWishView(self,request):
+        user = request.user
+
+        serializers = self.serializer_class(data=request.data, context = {'request':request})
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors)
+
+        
 
 class BannersView(ModelViewSet):
     queryset = Banners.objects.all()
@@ -103,3 +122,4 @@ class SubCatView(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
     permission_classes = [IsAdminOrReadOnly]
+
