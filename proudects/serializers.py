@@ -42,7 +42,7 @@ class tagsSerializers(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = '__all__'
-        read_only_fields = ['id','products']
+        read_only_fields = ['name_ar','name_en']
 class RateSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     username = serializers.CharField(source='user.username',read_only=True)
@@ -60,7 +60,7 @@ class ProductsSerializers(serializers.ModelSerializer):
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
     wish = serializers.SerializerMethodField()
-    tag = tagsSerializers()
+    tags = tagsSerializers(read_only=True, many=True)
     class Meta:
         model = Product
         fields = [
@@ -70,7 +70,7 @@ class ProductsSerializers(serializers.ModelSerializer):
             'rates','wish',
             'name_ar','name_en',
             'old_price','price',
-            'star','tag',
+            'star','tags',
             'description_ar',
             'description_en',
             'category_patch'
@@ -89,6 +89,9 @@ class ProductsSerializers(serializers.ModelSerializer):
             if user in obj.wishlist.all():
                 return True
         return False
+    # def get_tags(self,obj):
+    #     if obj.tag:
+    #         return(tagsSerializers(obj.tag).data)
     def update(self, instance, validated_data):
         colors_data = validated_data.pop('colors', None)
         sizes_data = validated_data.pop('sizes', None)
