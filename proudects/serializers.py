@@ -21,11 +21,17 @@ class CategorySerializers(serializers.ModelSerializer):
     def get_road(self, obj):
         if obj.subCategory:
             try:
-                return obj.subCategory.mainCategory.id
+                return {
+                    "mainCategory":obj.subCategory.mainCategory.id,
+                    "subCategory":obj.subCategory.id
+                }
             except:
                 return None
         else:
-            return obj.mainCategory.id
+            return  {
+                    "mainCategory":obj.mainCategory.id,
+                    "subCategory":None
+                }
 class MainCategorySerializers(serializers.ModelSerializer):
     subCate = CategorySerializers(source = 'mainCate', many=True, read_only=True)
     class Meta:
