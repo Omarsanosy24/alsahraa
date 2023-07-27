@@ -92,7 +92,6 @@ class ProductsView(ModelViewSet):
     @action(detail=False, permission_classes=[IsAuthenticated], methods=['POST'] , serializer_class= AddToWishListSer)
     def AddToWishView(self,request):
         user = request.user
-
         serializers = self.serializer_class(data=request.data, context = {'request':request})
         if serializers.is_valid():
             serializers.save()

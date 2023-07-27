@@ -186,10 +186,10 @@ class PendingOrdersSer(serializers.Serializer):
         except Product.DoesNotExist:
             raise serializers.ValidationError({"id_product":"Product with id {} does not exist".format(id_product)})
         user = self.context['request'].user
-        if user in instance.PendingOrder.all():
-            instance.PendingOrder.remove(user)
+        if user in instance.PendingOrders.all():
+            instance.PendingOrders.remove(user)
             return {"message":"تمت الازالة من قائمة بانتظار الدفع"}
         else:
-            instance.PendingOrder.add(user)
+            instance.PendingOrders.add(user)
             return {"message":"تمت الاضافة من قائمة بانتظار الدفع"}
 
