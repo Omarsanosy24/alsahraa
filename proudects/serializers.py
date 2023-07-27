@@ -7,6 +7,8 @@ class CatWithProSerializers(serializers.ModelSerializer):
 
 class CategorySerializers(serializers.ModelSerializer):
     subCategory = serializers.SerializerMethodField()
+    road = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Category
         fields = '__all__'
@@ -16,6 +18,11 @@ class CategorySerializers(serializers.ModelSerializer):
             query = obj.subCate.all()
             return CategorySerializers(query,many=True).data
         return None
+    def get_road(self, obj):
+        if obj.subCategory:
+            return obj.subCategory.mainCategory
+        else:
+            return obj.mainCategory
 class MainCategorySerializers(serializers.ModelSerializer):
     subCate = CategorySerializers(source = 'mainCate', many=True, read_only=True)
     class Meta:
@@ -50,6 +57,7 @@ class RateSerializers(serializers.ModelSerializer):
     class Meta:
         model = Rate
         fields = '__all__'
+    
         
 class ProductsSerializers(serializers.ModelSerializer):
     category = CategorySerializers(read_only=True)
