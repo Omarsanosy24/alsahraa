@@ -105,8 +105,8 @@ class ProductsView(ModelViewSet):
         PendingOrders =  user.PendingOrder.all()
         serializers = self.serializer_class(PendingOrders,many=True, context = {'request':request})
         return Response(serializers.data)
-    @action(detail=False, permission_classes=[IsAuthenticated], methods=['POST'] , serializer_class= AddToWishListSer)
-    def AddToWishView(self,request):
+    @action(detail=False, permission_classes=[IsAuthenticated], methods=['POST'] , serializer_class= PendingOrdersSer)
+    def AddPendingOrdersView(self,request):
         user = request.user
         serializers = self.serializer_class(data=request.data, context = {'request':request})
         if serializers.is_valid():
