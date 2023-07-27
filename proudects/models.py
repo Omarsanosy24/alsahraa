@@ -58,6 +58,7 @@ class Product(models.Model):
     text_on_photo = models.TextField( null=True, blank=True)
     PendingOrders = models.ManyToManyField(User,blank=True , related_name='PendingOrder')
 
+
     def __str__(self):
         return self.name_ar
     
@@ -65,6 +66,7 @@ class Product(models.Model):
 class Rate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='rates')
+    comment = models.TextField(null=True, blank=True)
     rate = models.IntegerField(default=0)
     date = models.DateField(auto_now_add=True)
 
