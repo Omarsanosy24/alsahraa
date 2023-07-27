@@ -70,7 +70,7 @@ class ProductsSerializers(serializers.ModelSerializer):
             'rates','wish',
             'name_ar','name_en',
             'old_price','price',
-            'star','tags',
+            'star','tag',
             'description_ar',
             'description_en',
             'category_patch'
