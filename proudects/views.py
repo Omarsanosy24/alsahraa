@@ -99,7 +99,21 @@ class ProductsView(ModelViewSet):
             return Response(serializers.data)
         else:
             return Response(serializers.errors)
-
+    @action(detail=False, permission_classes=[IsAuthenticated], methods=['GET'])
+    def PendingOrdersView(self,request):
+        user = request.user
+        PendingOrders =  user.PendingOrder.all()
+        serializers = self.serializer_class(PendingOrders,many=True, context = {'request':request})
+        return Response(serializers.data)
+    @action(detail=False, permission_classes=[IsAuthenticated], methods=['POST'] , serializer_class= AddToWishListSer)
+    def AddToWishView(self,request):
+        user = request.user
+        serializers = self.serializer_class(data=request.data, context = {'request':request})
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors)
         
 
 class BannersView(ModelViewSet):

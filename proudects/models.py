@@ -56,6 +56,7 @@ class Product(models.Model):
     tags = models.ManyToManyField(Tags, blank=True, related_name='tag')
     wishlist = models.ManyToManyField(User,blank=True , related_name='wish')
     text_on_photo = models.TextField( null=True, blank=True)
+    PendingOrders = models.ManyToManyField(User,blank=True , related_name='PendingOrder')
 
     def __str__(self):
         return self.name_ar

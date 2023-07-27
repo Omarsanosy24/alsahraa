@@ -174,4 +174,22 @@ class AddToWishListSer(serializers.Serializer):
         else:
             instance.wishlist.add(user)
             return {"message":"تمت الاضافة من المفضلة"}
+    
+class PendingOrdersSer(serializers.Serializer):
+    id_product = serializers.IntegerField(write_only=True)
+    message = serializers.CharField(read_only=True)
+
+    def create(self, validated_data):
+        id_product = validated_data.pop('id_product')
+        try:
+            instance = Product.objects.get(id=id_product)
+        except Product.DoesNotExist:
+            raise serializers.ValidationError({"id_product":"Product with id {} does not exist".format(id_product)})
+        user = self.context['request'].user
+        if user in instance.PendingOrder.all():
+            instance.PendingOrder.remove(user)
+            return {"message":"تمت الازالة من قائمة بانتظار الدفع"}
+        else:
+            instance.PendingOrder.add(user)
+            return {"message":"تمت الاضافة من قائمة بانتظار الدفع"}
 
