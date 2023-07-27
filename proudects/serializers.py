@@ -38,6 +38,11 @@ class colorSerializers(serializers.ModelSerializer):
         model = color
         fields = '__all__'
         read_only_fields = ['id','products']
+class tagsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = '__all__'
+        read_only_fields = ['id','products']
 class RateSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     username = serializers.CharField(source='user.username',read_only=True)
@@ -55,6 +60,7 @@ class ProductsSerializers(serializers.ModelSerializer):
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
     wish = serializers.SerializerMethodField()
+    tags = tagsSerializers()
     class Meta:
         model = Product
         fields = [
