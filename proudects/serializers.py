@@ -60,7 +60,7 @@ class ProductsSerializers(serializers.ModelSerializer):
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
     wish = serializers.SerializerMethodField()
-    tags = tagsSerializers()
+    tag = tagsSerializers()
     class Meta:
         model = Product
         fields = [

@@ -53,7 +53,7 @@ class Product(models.Model):
         related_name='products'
         )
     star = models.BooleanField(default=False)
-    tags = models.ManyToManyField(Tags, blank=True)
+    tags = models.ManyToManyField(Tags, blank=True, related_name='tag')
     wishlist = models.ManyToManyField(User,blank=True , related_name='wish')
     def __str__(self):
         return self.name_ar
