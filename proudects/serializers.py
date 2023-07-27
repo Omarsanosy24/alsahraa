@@ -61,7 +61,6 @@ class ProductsSerializers(serializers.ModelSerializer):
     rates = RateSerializers(many=True, read_only=True)
     wish = serializers.SerializerMethodField()
     tags = tagsSerializers(read_only=True, many=True)
-    text_on_photo = models.TextField( null=True, blank=True)
     class Meta:
         model = Product
         fields = [
@@ -74,7 +73,8 @@ class ProductsSerializers(serializers.ModelSerializer):
             'star','tags',
             'description_ar',
             'description_en',
-            'category_patch'
+            'category_patch',
+            'text_on_photo'
             ]
         read_only_fields = ['wishlist']
 
