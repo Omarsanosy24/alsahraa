@@ -126,7 +126,7 @@ class RateView(ModelViewSet):
     queryset = Rate.objects.all()
     serializer_class = RateSerializers
     permission_classes = [IsAuthenticated]
-    http_method_names=['get','post','patch']
+    http_method_names=['get','post','patch','delete']
     def list(self,request):
         user = request.user
         ser =self.serializer_class( self.queryset.filter(user=user), many=True, context={"request":request})
