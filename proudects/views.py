@@ -38,7 +38,7 @@ class ProductsView(ModelViewSet):
     serializer_class = ProductsSerializers
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-    search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en"]
+    search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en",'tags__name_ar','tags__name_en']
     def get_queryset(self):
         query = self.queryset
         category_id = self.request.query_params.get('category', None)
