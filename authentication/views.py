@@ -108,7 +108,6 @@ class LoginAPIView(generics.GenericAPIView):
                 status=status.HTTP_200_OK,
             )
         else:
-            print('omar')
             r = serializer.data.get("email")
             return Response(
                 {"status": False, "message": r, "data": {}}, status=status.HTTP_200_OK

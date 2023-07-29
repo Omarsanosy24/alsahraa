@@ -103,7 +103,6 @@ class LoginSerializer(serializers.ModelSerializer):
             return super().validate(attrs)
 
         except Exception as e:
-            print(e)
             raise serializers.ValidationError(str(e))
 
 
