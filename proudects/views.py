@@ -114,12 +114,12 @@ class RateView(ModelViewSet):
         ser =self.serializer_class( self.queryset.filter(user=user), many=True, context={"request":request})
         return Response(ser.data)
     
-    def patch(self,request):
+    def update(self, request, *args, **kwargs):
         user = request.user
         if self.get_object().user == user:
-            return super().patch(self,request)
+            return super().update(request,*args, **kwargs)
         else:
-            raise serializers.ValidationError("you did not have permission to update it")
+            raise serializers.ValidationError({"permission":"you did not have permission to update it"})
 
 class ImageView(ModelViewSet):
     queryset = Image.objects.all()
