@@ -83,7 +83,15 @@ class color(models.Model):
 
     def __str__(self):
         return self.color_ar
+    def copy(self):
+        # Create a new instance of the model with all the same attributes
+        obj = self.__class__.objects.create(
+            products=self.products,
+            color_ar=f"Copy of {self.color_ar}",
+            color_en=f"Copy of {self.color_en}",
 
+        )
+        return obj
 class sizes(models.Model):
     products = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='sizes')
     size_ar = models.CharField(max_length=100)
@@ -91,7 +99,15 @@ class sizes(models.Model):
     
     def __str__(self):
         return self.size_ar
-    
+    def copy(self):
+        # Create a new instance of the model with all the same attributes
+        obj = self.__class__.objects.create(
+            products=self.products,
+            size_ar=f"Copy of {self.size_ar}",
+            size_en=f"Copy of {self.size_en}",
+
+        )
+        return obj
 
 class Image(models.Model):
     image = models.ImageField(upload_to='products/', default='products/face2028-eb00-4b01-be75-a4fc537a10dc.jpeg')
@@ -99,6 +115,13 @@ class Image(models.Model):
 
     def __str__(self) -> str:
         return self.product.name_ar
+    def copy(self):
+        # Create a new instance of the model with all the same attributes
+        obj = self.__class__.objects.create(
+            product=self.product,
+            image=self.image,
+        )
+        return obj
 class Banners(models.Model):
     choices = [
         ('fr','first'),
