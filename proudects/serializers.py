@@ -92,7 +92,9 @@ class ProductsSerializers(serializers.ModelSerializer):
             'description_ar',
             'description_en',
             'category_patch',
-            'text_on_photo'
+            'text_on_photo_ar',
+            'text_on_photo_en',
+
             ]
         read_only_fields = ['wishlist']
 
