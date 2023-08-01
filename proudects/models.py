@@ -55,7 +55,9 @@ class Product(models.Model):
     star = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tags, blank=True, related_name='tag')
     wishlist = models.ManyToManyField(User,blank=True , related_name='wish')
-    text_on_photo = models.TextField( null=True, blank=True)
+    text_on_photo_ar = models.TextField( null=True, blank=True)
+    text_on_photo_en = models.TextField( null=True, blank=True)
+
     PendingOrders = models.ManyToManyField(User,blank=True , related_name='PendingOrder')
 
 
