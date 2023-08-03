@@ -124,11 +124,11 @@ class RateView(ModelViewSet):
 class ImageView(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializers
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     # http_method_names=['patch','get']
 
 class SubCatView(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
-    permission_classes = [IsAdminOrReadOnly]
+    # permission_classes = [IsAdminOrReadOnly]
 
