@@ -116,7 +116,6 @@ class ProductsSerializers(serializers.ModelSerializer):
             'category_patch',
             'text_on_photo_ar',
             'text_on_photo_en',
-
             ]
         read_only_fields = ['wishlist']
 
@@ -162,7 +161,6 @@ class ProductsSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         colors_data = validated_data.pop('colors', None)
         sizes_data = validated_data.pop('sizes', None)
-        images = validated_data('images',None)
         cat = validated_data.pop('category_patch')
         name_ar = validated_data.pop('name_ar')
         name_en = validated_data.pop('name_en')
@@ -186,9 +184,6 @@ class ProductsSerializers(serializers.ModelSerializer):
         if sizes_data:
             for color in sizes_data:
                 instance.sizes.create(size_ar=color['size_ar'], size_en=color["size_en"])
-        if images:
-            for image in images:
-                instance.images.create(image=image['image'])
         return instance
 
 
