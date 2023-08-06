@@ -41,14 +41,21 @@ class CategorySerializers(serializers.ModelSerializer):
         if sub != None:
             if Category.objects.get(id=sub).subCategory:
                 raise serializers.ValidationError({
-                    "sub":"لا يمكنك استخدام هذا المسار"
+                    "subCat":"لا يمكنك استخدام هذا المسار"
                 })
-        if mainCategory and sub:
+            try:
+                Category.objects.get(id=sub)
+            except:
+                print(sub)
+                raise serializers.ValidationError({
+                    "subCat":"Error in this sub"
+                })
+        if mainCategory !=None and sub != None:
             raise serializers.ValidationError({
-                "sub":"لا يمكنك اختيار فرع رئيسي وفرع ثانوي معاً"
+                "subCat":"لا يمكنك اختيار فرع رئيسي وفرع ثانوي معاً"
             })
         instance = Category(
-            subCategory = sub,
+            subCategory = (Category.objects.get(id=sub) if sub != None else None),
             mainCategory = mainCategory,
             name_ar = name_ar,
             name_en = name_en
