@@ -29,10 +29,13 @@ class CategorySerializers(serializers.ModelSerializer):
             except:
                 return None
         else:
-            return  {
-                    "mainCategory":obj.mainCategory.id,
-                    "subCategory":None
-                }
+            try:
+                return  {
+                        "mainCategory":obj.mainCategory.id,
+                        "subCategory":None
+                    }
+            except Exception as e:
+                raise serializers.ValidationError(e)
     def create(self, validated_data):
         mainCategory =  validated_data.pop('mainCategory', None)
         sub = validated_data.pop('subCat', None)
@@ -41,14 +44,33 @@ class CategorySerializers(serializers.ModelSerializer):
         if sub != None:
             if Category.objects.get(id=sub).subCategory:
                 raise serializers.ValidationError({
+<<<<<<< HEAD
                     "sub":"لا يمكنك استخدام هذا المسار"
                 })
         if mainCategory != None and sub != None:
             raise serializers.ValidationError({
                 "sub":"لا يمكنك اختيار فرع رئيسي وفرع ثانوي معاً"
+=======
+                    "subCat":"لا يمكنك استخدام هذا المسار"
+                })
+            try:
+                Category.objects.get(id=sub)
+            except:
+                print(sub)
+                raise serializers.ValidationError({
+                    "subCat":"Error in this sub"
+                })
+        if mainCategory !=None and sub != None:
+            raise serializers.ValidationError({
+                "subCat":"لا يمكنك اختيار فرع رئيسي وفرع ثانوي معاً"
+            })
+        if mainCategory == None and sub == None:
+             raise serializers.ValidationError({
+                "subCat":"add main or sub category"
+>>>>>>> 7bde6f4bca9c3aca35d0a065876fcf95c021060a
             })
         instance = Category(
-            subCategory = sub,
+            subCategory = (Category.objects.get(id=sub) if sub != None else None),
             mainCategory = mainCategory,
             name_ar = name_ar,
             name_en = name_en
