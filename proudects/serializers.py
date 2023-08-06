@@ -38,7 +38,6 @@ class CategorySerializers(serializers.ModelSerializer):
         sub = validated_data.pop('subCat', None)
         name_ar = validated_data.pop('name_ar', None)
         name_en = validated_data.pop('name_en', None)
-        print(sub)
         if sub != None:
             if Category.objects.get(id=sub).subCategory:
                 raise serializers.ValidationError({
