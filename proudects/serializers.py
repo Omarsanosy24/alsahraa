@@ -54,6 +54,10 @@ class CategorySerializers(serializers.ModelSerializer):
             raise serializers.ValidationError({
                 "subCat":"لا يمكنك اختيار فرع رئيسي وفرع ثانوي معاً"
             })
+        if mainCategory == None and sub == None:
+             raise serializers.ValidationError({
+                "subCat":"add main or sub category"
+            })
         instance = Category(
             subCategory = (Category.objects.get(id=sub) if sub != None else None),
             mainCategory = mainCategory,
