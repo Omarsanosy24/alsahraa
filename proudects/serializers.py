@@ -29,10 +29,13 @@ class CategorySerializers(serializers.ModelSerializer):
             except:
                 return None
         else:
-            return  {
-                    "mainCategory":obj.mainCategory.id,
-                    "subCategory":None
-                }
+            try:
+                return  {
+                        "mainCategory":obj.mainCategory.id,
+                        "subCategory":None
+                    }
+            except Exception as e:
+                raise serializers.ValidationError(e)
     def create(self, validated_data):
         mainCategory =  validated_data.pop('mainCategory', None)
         sub = validated_data.pop('subCat', None)
