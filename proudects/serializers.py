@@ -7,7 +7,7 @@ class CatWithProSerializers(serializers.ModelSerializer):
 
 class CategorySerializers(serializers.ModelSerializer):
     subCategory = serializers.SerializerMethodField()
-    subCat = serializers.IntegerField(write_only=True)
+    subCat = serializers.IntegerField(write_only=True, required=False)
     road = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
