@@ -38,17 +38,18 @@ class CategorySerializers(serializers.ModelSerializer):
         sub = validated_data.pop('subCat', None)
         name_ar = validated_data.pop('name_ar', None)
         name_en = validated_data.pop('name_en', None)
-        if Category.objects.get(id=sub).subCategory:
-            raise serializers.ValidationError({
-                "sub":"لا يمكنك استخدام هذا المسار"
-            })
+        if sub:
+            if Category.objects.get(id=sub).subCategory:
+                raise serializers.ValidationError({
+                    "sub":"لا يمكنك استخدام هذا المسار"
+                })
         if mainCategory and sub:
             raise serializers.ValidationError({
                 "sub":"لا يمكنك اختيار فرع رئيسي وفرع ثانوي معاً"
             })
         instance = Category(
-            subCategory = sub,
-            mainCategory = mainCategory,
+            subCategory = Category.objects.get(id=sub),
+            mainCategory = MainCategory.objects.get(id=mainCategory),
             name_ar = name_ar,
             name_en = name_en
         )
