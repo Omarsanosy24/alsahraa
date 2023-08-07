@@ -1,4 +1,5 @@
 import random
+from typing import Iterable, Optional
 from django.db import models
 from ckeditor.fields import RichTextField
 from authentication.models import User
@@ -34,6 +35,8 @@ class Category(models.Model):
     def clean(self):
         if self.mainCategory and self.subCategory:
             raise ValidationError('You can only select one category')
+        elif not self.mainCategory and not self.subCategory:
+            raise ValidationError("Please choose a category")
 class Tags(models.Model):
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
@@ -63,6 +66,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name_ar
+    
+    
     
     
 class Rate(models.Model):
