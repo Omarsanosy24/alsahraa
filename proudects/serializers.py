@@ -49,7 +49,6 @@ class CategorySerializers(serializers.ModelSerializer):
             try:
                 Category.objects.get(id=sub)
             except:
-                print(sub)
                 raise serializers.ValidationError({
                     "subCat":"Error in this sub"
                 })
@@ -115,7 +114,7 @@ class ProductsSerializers(serializers.ModelSerializer):
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
     wish = serializers.SerializerMethodField()
-    tags = tagsSerializers(read_only=True, many=True)
+    tagat = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = [
@@ -131,8 +130,11 @@ class ProductsSerializers(serializers.ModelSerializer):
             'category_patch',
             'text_on_photo_ar',
             'text_on_photo_en',
+            'tagat'
             ]
         read_only_fields = ['wishlist']
+        extra_kwargs = {'tags':{'write_only':True}}
+        
 
     def get_rateNum(self, obj):
         values = Rate.objects.filter(product = obj).values_list('rate',flat=True)
@@ -146,6 +148,10 @@ class ProductsSerializers(serializers.ModelSerializer):
             if user in obj.wishlist.all():
                 return True
         return False
+    def get_tagat(self,obj):
+        tags = obj.tags
+        tagsserializer = tagsSerializers(tags, many=True,)
+        return tagsserializer.data
     # def get_tags(self,obj):
     #     if obj.tag:
     #         return(tagsSerializers(obj.tag).data)
