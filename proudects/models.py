@@ -156,3 +156,10 @@ class Links(models.Model):
     def __str__(self) -> str:
         return self.kind
     
+
+class MediaModel(models.Model):
+    url = models.URLField()
+    image = models.ImageField(upload_to='mediaModel/')
+
+    def __str__(self) -> str:
+        return self.url

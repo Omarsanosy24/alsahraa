@@ -135,3 +135,7 @@ class SubCatView(ModelViewSet):
 class LinksView(ModelViewSet):
     queryset = Links.objects.all()
     serializer_class = LinksSerializers
+
+class MediaView(ModelViewSet):
+    queryset = MediaModel.objects.all()
+    serializer_class = MediaSerializers

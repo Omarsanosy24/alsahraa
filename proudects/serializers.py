@@ -257,4 +257,7 @@ class LinksSerializers(serializers.ModelSerializer):
         model = Links
         fields = '__all__'
 
-
+class MediaSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = MediaModel
+        fields = '__all__'
