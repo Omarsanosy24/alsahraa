@@ -250,4 +250,11 @@ class PendingOrdersSer(serializers.Serializer):
         else:
             instance.PendingOrders.add(user)
             return {"message":"تمت الاضافة من قائمة بانتظار الدفع"}
+        
+
+class LinksSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Links
+        fields = '__all__'
+
 

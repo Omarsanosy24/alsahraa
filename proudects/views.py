@@ -132,3 +132,6 @@ class SubCatView(ModelViewSet):
     serializer_class = CategorySerializers
     # permission_classes = [IsAdminOrReadOnly]
 
+class LinksView(ModelViewSet):
+    queryset = Links.objects.all()
+    serializer_class = LinksSerializers

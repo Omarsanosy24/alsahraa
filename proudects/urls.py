@@ -9,6 +9,8 @@ router.register('banners', views.BannersView)
 router.register('rate', views.RateView)
 router.register('images', views.ImageView)
 router.register('subCategory', views.SubCatView)
+router.register('Links', views.LinksView)
+
 
 urlpatterns = [
     path('', include(router.urls)),

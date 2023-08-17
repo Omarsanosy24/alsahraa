@@ -142,3 +142,17 @@ class Banners(models.Model):
 
 
 
+class Links(models.Model):
+    choices = [
+        ('phone','phone'),
+        ('mobile','mobile'),
+        ('whatsapp','whatsapp'),
+        ('telegram','telegram'),
+        ('email','email')
+    ]
+    kind = models.CharField(choices=choices, max_length=20, unique=True)
+    value = models.CharField(max_length=50)
+    
+    def __str__(self) -> str:
+        return self.kind
+    
