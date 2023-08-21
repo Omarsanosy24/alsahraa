@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     phone = models.CharField(max_length=25, null=True, blank=True)
     kind = models.CharField(max_length=6 , choices=choice, null=True, blank=True)
-    image = models.ImageField(default="default.png")
+    image = models.ImageField(default="default.png", upload_to='profile')
     BirthOfDate = models.CharField(max_length=100,null=True,blank=True)
     sex = models.CharField(max_length=7, choices=kind_, null=True, blank=True)
 
