@@ -95,6 +95,10 @@ class tagsSerializers(serializers.ModelSerializer):
         model = Tags
         fields = '__all__'
         read_only_fields = ['name_ar','name_en']
+class tagsSerializersNew(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = '__all__'
 class RateSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     username = serializers.CharField(source='user.username',read_only=True)

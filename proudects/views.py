@@ -142,4 +142,4 @@ class MediaView(ModelViewSet):
 
 class TagsView(ModelViewSet):
     queryset = Tags.objects.all()
-    serializer_class = tagsSerializers
+    serializer_class = tagsSerializersNew
