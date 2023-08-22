@@ -139,3 +139,7 @@ class LinksView(ModelViewSet):
 class MediaView(ModelViewSet):
     queryset = MediaModel.objects.all()
     serializer_class = MediaSerializers
+
+class TagsView(ModelViewSet):
+    queryset = Tags.objects.all()
+    serializer_class = tagsSerializers
