@@ -202,8 +202,8 @@ class ProductsSerializers(serializers.ModelSerializer):
             description_ar=description_ar,
             description_en=description_en,
             )
-        for i in validated_data.pop('tags'):
-            instance.tags.add(Tags.objects.get(id=i))
+        for i in validated_data.pop('tags',None):
+            instance.tags.add(i)
         instance.save()
         if colors_data:
             for color in colors_data:
