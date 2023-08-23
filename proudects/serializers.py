@@ -202,6 +202,8 @@ class ProductsSerializers(serializers.ModelSerializer):
             description_ar=description_ar,
             description_en=description_en,
             )
+        
+        instance.save()
         for i in validated_data.pop('tags',None):
             instance.tags.add(i)
         instance.save()
