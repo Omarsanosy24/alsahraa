@@ -16,6 +16,7 @@ from django.db.models import Q
 from rest_framework.decorators import action
 from media import products
 from main_.views import ModelViewSet
+import random
 
 class CategoryView(ModelViewSet):
     
@@ -39,6 +40,7 @@ class ProductsView(ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['name_ar','name_en','description_ar',"description_en",'category__name_ar',"category__name_en",'tags__name_ar','tags__name_en']
+    filterset_fields =['star']
     def get_queryset(self):
         query = self.queryset
         category_id = self.request.query_params.get('category', None)
@@ -62,7 +64,10 @@ class ProductsView(ModelViewSet):
     
     @action(detail=False, methods=['GET'])
     def get_Varied_data(self,request):
-        serializers = self.serializer_class(Product.objects.filter(star=True),many=True, context = {'request':request})
+        pro = Product.objects.filter().values_list('id',flat=True)        
+        random_product_id_list = random.sample(list(pro),min(len(pro),2))
+        query_set = Product.objects.filter(id__in=random_product_id_list)
+        serializers = self.serializer_class(query_set,many=True, context = {'request':request})
         return Response(serializers.data)
     
     @action(detail=False, permission_classes=[IsAuthenticated], methods=['GET'])
