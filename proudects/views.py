@@ -65,7 +65,7 @@ class ProductsView(ModelViewSet):
     @action(detail=False, methods=['GET'])
     def get_Varied_data(self,request):
         pro = Product.objects.filter().values_list('id',flat=True)        
-        random_product_id_list = random.sample(list(pro),min(len(pro),2))
+        random_product_id_list = random.sample(list(pro),min(len(pro),20))
         query_set = Product.objects.filter(id__in=random_product_id_list)
         serializers = self.serializer_class(query_set,many=True, context={'request':request})
         return Response(serializers.data)
