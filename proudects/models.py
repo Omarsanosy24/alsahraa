@@ -139,7 +139,10 @@ class Banners(models.Model):
     place = models.CharField(choices=choices, max_length=8, default='first')
     def __str__(self) -> str:
         return self.image
-
+    def save(self,*args, **kwargs):
+        if Banners.objects.filter(place=self.place).exists():
+            self.id = Banners.objects.filter(place=self.place).first().id
+        return super(Banners,self).save(*args, **kwargs)
 
 
 class Links(models.Model):
