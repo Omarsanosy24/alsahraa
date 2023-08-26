@@ -138,7 +138,7 @@ class Banners(models.Model):
     image = models.ImageField(upload_to='banner/')
     place = models.CharField(choices=choices, max_length=8, default='first')
     def __str__(self) -> str:
-        return self.image
+        return self.place
     
 
 
