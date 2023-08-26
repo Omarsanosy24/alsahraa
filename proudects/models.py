@@ -148,7 +148,14 @@ class Links(models.Model):
         ('mobile','mobile'),
         ('whatsapp','whatsapp'),
         ('telegram','telegram'),
-        ('email','email')
+        ('email','email'),
+        ('youtube','youtube'),
+        ("tiktok","tiktok"),
+        ('snap','snap'),
+        ('insta',"insta"),
+        ('facebook',"facebook"),
+        ('twitter',"twitter"),
+        
     ]
     kind = models.CharField(choices=choices, max_length=20, unique=True)
     value = models.CharField(max_length=50)
