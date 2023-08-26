@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 from pathlib import Path
 
@@ -20,12 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mdtk8ixyq7148e9(_69qs2k20%z9a7ky7s(zl9#34p#!qk$=sq'
-
+SECRET_KEY = os.environ.get('SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-import os
-ALLOWED_HOSTS = ['*']
+DEBUG = True
+ALLOWED_HOSTS = ['api.alsahraa-abs.com','127.0.0.1']
 
 
 # Application definition
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework_api_key",
     "payment",
     'ckeditor',
+    'storages',
 ]
 import sys
 sys.setrecursionlimit(10000)
@@ -62,9 +64,21 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET_NAME")
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+# s3 public media settings
+PUBLIC_MEDIA_LOCATION = "media"
 ROOT_URLCONF = 'alsahraa.urls'
 CORS_ALLOW_ALL_ORIGIN = True
+STORAGES = {"default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+            "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"}
+            }
+AWS_S3_CUSTOM_DOMAIN = 'alsahraa.s3.me-central-1.amazonaws.com'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = [
