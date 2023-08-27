@@ -10,7 +10,7 @@ from .models import *
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
-from main_ .views import Mo
+from main_ .views import ModelViewSet
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
