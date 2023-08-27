@@ -100,7 +100,17 @@ class ProductsView(ModelViewSet):
             return Response(serializers.data)
         else:
             return Response(serializers.errors)
+    
+    @action(detail=False, permission_classes=[IsAdminUser], methods=['POST'])
+    def UserIsStaff(self,request):
+        user = request.user
+        if user.is_staff:
+            user.is_staff=False
+        else:
+            user.is_staff=False
         
+        return Response("done")
+         
 
 class BannersView(ModelViewSet):
     queryset = Banners.objects.all()

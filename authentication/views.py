@@ -10,6 +10,7 @@ from .models import *
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
+from main_ .views import Mo
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -234,3 +235,4 @@ class UserView(generics.GenericAPIView):
             serializers.save()
             return Response(serializers.data, status=status.HTTP_200_OK)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    

@@ -164,7 +164,7 @@ class Links(models.Model):
     
 
 class MediaModel(models.Model):
-    url = models.URLField()
+    url = models.Cha()
     image = models.ImageField(upload_to='mediaModel/')
 
     def __str__(self) -> str:
