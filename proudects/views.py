@@ -101,7 +101,7 @@ class ProductsView(ModelViewSet):
         else:
             return Response(serializers.errors)
     
-    @action(detail=False, permission_classes=[IsAdminUser], methods=['POST'])
+    @action(detail=False, permission_classes=[IsAdminUser], methods=['POST'],serializer_class= PendingOrdersSer)
     def UserIsStaff(self,request):
         user = request.user
         if user.is_staff:
