@@ -12,7 +12,7 @@ from faker import Faker
 from rest_framework.response import Response
 import random
 from django.db.models import Q
-
+from django.utils.translation import gettext_lazy as _
 from rest_framework.decorators import action
 from media import products
 from main_.views import ModelViewSet
@@ -101,15 +101,22 @@ class ProductsView(ModelViewSet):
         else:
             return Response(serializers.errors)
     
-    @action(detail=False, permission_classes=[IsAdminUser], methods=['POST'],serializer_class= PendingOrdersSer)
+    @action(detail=False, permission_classes=[IsAdminUser], methods=['POST'],serializer_class= UserIsStaff)
     def UserIsStaff(self,request):
-        user = request.user
-        if user.is_staff:
-            user.is_staff=False
+        ser = UserIsStaff(request.data)
+        if ser.is_valid():
+            email = ser.data.get('email')
+            try:
+                user = User.objects.get(email=email)
+                if user.is_staff:
+                    user.is_staff = False
+                else:
+                    user.is_staff = True
+                user.save()
+            except:
+                return Response(_('this email is incorrect'))
         else:
-            user.is_staff=False
-        
-        return Response("done")
+            return Response(ser.errors)
          
 
 class BannersView(ModelViewSet):

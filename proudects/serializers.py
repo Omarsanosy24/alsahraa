@@ -269,3 +269,6 @@ class MediaSerializers(serializers.ModelSerializer):
     class Meta:
         model = MediaModel
         fields = '__all__'
+
+class UserIsStaff(serializers.Serializer):
+    user = serializers.EmailField()
