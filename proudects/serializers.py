@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from authentication.serializers import UserSer
-
+from PIL import Image as Image_
 class CatWithProSerializers(serializers.ModelSerializer):
     pass 
 
@@ -78,6 +78,7 @@ class ImageSerializers(serializers.ModelSerializer):
         model = Image
         fields = '__all__'
         # read_only_fields = ['id','product']
+    
 
 class sizesSerializers(serializers.ModelSerializer):
     class Meta:

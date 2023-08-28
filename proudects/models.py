@@ -6,7 +6,9 @@ from authentication.models import User
 # Create your models here.
 from django.core.exceptions import ValidationError
 from django.db.models import Count
-
+from PIL import Image as Image_
+from io import BytesIO
+from django.core.files import File
 class MainCategory(models.Model):
     name_ar = models.CharField(max_length=100)
     name_en = models.CharField(max_length=100)
@@ -129,6 +131,16 @@ class Image(models.Model):
             image=self.image,
         )
         return obj
+    def save(self, *args, **kwargs):
+        new_image = self.reduce_image_size(self.image)
+        self.image = new_image
+        super().save(*args, **kwargs)
+    def reduce_image_size(self, profile_pic):
+        img = Image_.open(profile_pic)
+        thumb_io = BytesIO()
+        img.save(thumb_io, "jpeg", quality=50)
+        new_image = File(thumb_io, name=profile_pic.name)
+        return new_image
 class Banners(models.Model):
     choices = [
         ('fr','first'),
