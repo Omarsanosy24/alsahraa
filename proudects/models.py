@@ -131,16 +131,7 @@ class Image(models.Model):
             image=self.image,
         )
         return obj
-    def save(self, *args, **kwargs):
-        new_image = self.reduce_image_size(self.image)
-        self.image = new_image
-        super().save(*args, **kwargs)
-    def reduce_image_size(self, profile_pic):
-        img = Image_.open(profile_pic)
-        thumb_io = BytesIO()
-        img.save(thumb_io, "jpeg", quality=50)
-        new_image = File(thumb_io, name=profile_pic.name)
-        return new_image
+    
 class Banners(models.Model):
     choices = [
         ('fr','first'),
