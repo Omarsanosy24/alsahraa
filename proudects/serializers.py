@@ -181,7 +181,7 @@ class ProductsSerializers(serializers.ModelSerializer):
         if sizes_data:
             instance.sizes.all().delete()
             for color in sizes_data:
-                instance.sizes.create(size_ar=color['size_ar'], size_en=color["size_en"])
+                instance.sizes.create(size_ar=color['size_ar'],price=color['price'], size_en=color["size_en"])
         return super().update(instance, validated_data)
     
     def create(self, validated_data):
