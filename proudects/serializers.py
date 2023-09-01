@@ -213,7 +213,7 @@ class ProductsSerializers(serializers.ModelSerializer):
                 instance.colors.create(color_ar=color['color_ar'], color_en=color["color_en"])
         if sizes_data:
             for color in sizes_data:
-                instance.sizes.create(size_ar=color['size_ar'], size_en=color["size_en"])
+                instance.sizes.create(size_ar=color['size_ar'],price=color['price'], size_en=color["size_en"])
         return instance
 
 
