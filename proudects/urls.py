@@ -12,6 +12,7 @@ router.register('subCategory', views.SubCatView)
 router.register('Links', views.LinksView)
 router.register('media', views.MediaView)
 router.register('Tags', views.TagsView)
+router.register('commit', views.CommitView)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -165,3 +165,14 @@ class MediaView(ModelViewSet):
 class TagsView(ModelViewSet):
     queryset = Tags.objects.all()
     serializer_class = tagsSerializersNew
+
+class CommitView(ModelViewSet):
+    queryset = commitForWeb.objects.all()
+    serializer_class = CommitSerializers
+    http_method_names = ['get','post']
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            query = self.queryset.filter(user=self.request.user)
+            return query
+        return super().get_queryset()
+    

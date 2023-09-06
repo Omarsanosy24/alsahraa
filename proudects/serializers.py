@@ -273,3 +273,9 @@ class MediaSerializers(serializers.ModelSerializer):
 
 class UserIsStaff(serializers.Serializer):
     user = serializers.EmailField()
+
+class CommitSerializers(serializers.ModelSerializer):
+    user = serializers.HiddenField(default= serializers.CurrentUserDefault())
+    class Meta:
+        model = commitForWeb
+        fields = '__all__'

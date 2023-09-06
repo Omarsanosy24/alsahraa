@@ -172,3 +172,13 @@ class MediaModel(models.Model):
 
     def __str__(self) -> str:
         return self.url
+    
+
+class commitForWeb(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    rate = models.PositiveIntegerField()
+    place = models.TextField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.user.username
