@@ -276,8 +276,8 @@ class UserIsStaff(serializers.Serializer):
 
 class CommitSerializers(serializers.ModelSerializer):
     user = serializers.HiddenField(default= serializers.CurrentUserDefault())
-    email = serializers.CharField(source = 'user.username')
-    image = serializers.CharField(source = 'user.image')
+    email = serializers.CharField(source = 'user.username',read_only=True)
+    image = serializers.CharField(source = 'user.image',read_only=True)
     class Meta:
         model = commitForWeb
         fields = '__all__'
