@@ -142,7 +142,13 @@ class RateView(ModelViewSet):
             return super().update(request,*args, **kwargs)
         else:
             raise serializers.ValidationError({"permission":"you did not have permission to update it"})
-
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user.is_authenticated:
+            if instance.user == request.user or request.user.is_staff:
+                instance.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"details":"You can not delete this commit"}, status=status.HTTP_403_FORBIDDEN)
 class ImageView(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializers
@@ -169,10 +175,17 @@ class TagsView(ModelViewSet):
 class CommitView(ModelViewSet):
     queryset = commitForWeb.objects.all()
     serializer_class = CommitSerializers
-    http_method_names = ['get','post']
+    http_method_names = ['get','post','delete']
     def get_queryset(self):
         if self.request.user.is_authenticated:
             query = self.queryset.filter(user=self.request.user)
             return query
         return super().get_queryset()
     
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user.is_authenticated:
+            if instance.user == request.user or request.user.is_staff:
+                instance.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"details":"You can not delete this commit"}, status=status.HTTP_403_FORBIDDEN)
