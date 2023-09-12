@@ -177,7 +177,7 @@ class CommitView(ModelViewSet):
     serializer_class = CommitSerializers
     http_method_names = ['get','post','delete']
     def get_queryset(self):
-        if self.request.user.is_authenticated:
+        if self.request.user.is_authenticated and self.action == 'list':
             query = self.queryset.filter(user=self.request.user)
             return query
         return super().get_queryset()
