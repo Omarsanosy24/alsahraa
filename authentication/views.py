@@ -107,12 +107,7 @@ class LoginAPIView(generics.GenericAPIView):
                     "data": serializer.data,
                 },
                 status=status.HTTP_200_OK,
-            ).set_cookie(
-                        key = "token", 
-                        value = serializer.data['token'],
-                        httponly = True,
-                        samesite = 'data'
-                            )
+            )
         else:
             r = serializer.data.get("email")
             return Response(
