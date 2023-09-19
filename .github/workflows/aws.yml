@@ -118,7 +118,7 @@ jobs:
 
       - name: SSH into server and restart services
         uses: appleboy/ssh-action@master
-        with:
+        with: 
           host: ${{ env.SERVER_IP }}
           username: ${{ env.SSH_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
