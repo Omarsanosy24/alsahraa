@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['api.alsahraa-abs.com','127.0.0.1']
 
 
@@ -101,7 +101,7 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
     'x-api-key',
 ]
-CSRF_TRUSTED_ORIGINS = ['http://*','https://*',]
+CSRF_TRUSTED_ORIGINS = ['https://alsahraa-abs.com',]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
