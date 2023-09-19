@@ -135,7 +135,7 @@ class ProductsSerializers(serializers.ModelSerializer):
             'category_patch',
             'text_on_photo_ar',
             'text_on_photo_en',
-            'tagat'
+            'tagat','stock'
             ]
         read_only_fields = ['wishlist']
         extra_kwargs = {'tags':{'write_only':True}}
@@ -194,6 +194,7 @@ class ProductsSerializers(serializers.ModelSerializer):
         old_price = validated_data.pop('old_price',None)
         description_ar = validated_data.pop('description_ar')
         description_en = validated_data.pop('description_en')
+        stock = validated_data.pop('stock',None)
         instance = Product(
             category = Category.objects.get(id=cat),
             name_ar=name_ar,
@@ -202,6 +203,7 @@ class ProductsSerializers(serializers.ModelSerializer):
             old_price=old_price,
             description_ar=description_ar,
             description_en=description_en,
+            stock=stock
             )
         
         instance.save()

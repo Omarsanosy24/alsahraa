@@ -50,6 +50,7 @@ class Product(models.Model):
     name_en = models.CharField(max_length=100)
     old_price = models.DecimalField(max_digits=10,decimal_places=2, null=True, blank=True)
     price = models.DecimalField(max_digits=10,decimal_places=2)
+    stock = models.PositiveIntegerField(default=1)
     description_ar = RichTextField()
     description_en = RichTextField()
     category = models.ForeignKey(
