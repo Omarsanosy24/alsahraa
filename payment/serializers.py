@@ -36,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
                 product = Product.objects.get(id=order_item_data['id']).name_ar,
                 quantity = order_item_data['number'],
                 size = (sizes.objects.get(id = order_item_data.get('sp',None)).size_ar if order_item_data.get('sp',None) else None ),
-                color = (color.object.get(id = order_item_data.get('cp',None)).color_ar if order_item_data.get('cp',None) else None),
+                color = (color.objects.get(id = order_item_data.get('cp',None)).color_ar if order_item_data.get('cp',None) else None),
                 price = float((sizes.objects.get(id = order_item_data.get('sp',None)).price if  order_item_data.get('sp',None) else Product.objects.get(id=order_item_data['id']).price ))
 
                 )
