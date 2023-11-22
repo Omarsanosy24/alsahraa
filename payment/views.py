@@ -95,7 +95,7 @@ def pay(order):
             "apartment": "803", 
             "email": f"{order.user.email}", 
             "floor": "42", 
-            "first_name": f"{order.name}", 
+            "first_name": f"{order.user.username}", 
             "street": f"{order.street}", 
             "building": "8028", 
             "phone_number": f"{order.phone}", 

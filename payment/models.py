@@ -4,16 +4,16 @@ from proudects.models import *
 # Create your models here.
 class order(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-    name = models.TextField()
     city = models.CharField(max_length=200)
-    dis = models.TextField()
-    street = models.TextField()
+    note = models.TextField(blank=True,null=True)
+    state = models.TextField()
     homeDes = models.TextField(blank=True,null=True)
-    postal = models.IntegerField(null=True,blank=True)
+    country = models.TextField(null=True,blank=True)
     phone = models.CharField(max_length=20)
     def __str__(self) -> str:
         return self.user.username
-    
+    # def save(self,*args, **kwargs):
+        
 
     @property
     def total_price(self):
