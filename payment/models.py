@@ -6,7 +6,7 @@ class order(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     city = models.CharField(max_length=200)
     note = models.TextField(blank=True,null=True)
-    state = models.TextField()
+    state = models.TextField(null=True)
     homeDes = models.TextField(blank=True,null=True)
     country = models.TextField(null=True,blank=True)
     phone = models.CharField(max_length=20)
