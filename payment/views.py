@@ -96,7 +96,7 @@ def pay(order):
             "email": f"{order.user.email}", 
             "floor": "42", 
             "first_name": f"{order.user.username}", 
-            "street": f"{order.street}", 
+            "street": f"{order.country}", 
             "building": "8028", 
             "phone_number": f"{order.phone}", 
             "shipping_method": "PKG", 
