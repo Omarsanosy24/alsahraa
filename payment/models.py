@@ -10,6 +10,8 @@ class order(models.Model):
     homeDes = models.TextField(blank=True,null=True)
     country = models.TextField(null=True,blank=True)
     phone = models.CharField(max_length=20)
+    auth_key = models.TextField(blank=True, null=True)
+    status = models.CharField(null=True, blank=True, max_length=20)
     def __str__(self) -> str:
         return self.user.username
     # def save(self,*args, **kwargs):

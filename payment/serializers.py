@@ -41,3 +41,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
                 )
         return order_
+    
+
+class FormSer(serializers.Serializer):
+    json = serializers.JSONField()
+
+    
