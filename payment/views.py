@@ -142,7 +142,7 @@ def pay(order):
             }
         },
         "source": { "id": "src_card" },
-        "post": { "url": "https://201b-156-207-60-79.ngrok-free.app/payment/data" },
+        "post": { "url": "https://aoi.alsahraa-abs.com/payment/data" },
         "redirect": { "url": "https://alsahraa-abs.com/en/cart" }
     }
     headers = {
