@@ -6,7 +6,8 @@ from rest_framework.permissions import *
 from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 import traceback
-from .models import *
+from .models import order
+from .models import order as Order
 # Create your views here.
 api_key = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TkRrc0ltNWhiV1VpT2lJeE5qazVNamsxT0Rrd0xqRXdORGN5TkNKOS5mcGdWbFg3UDRvSWN5UGlBZUxpNUxINGdVZDVDbmUza0lKVWhyY25NNzctd2R0OEdqNkVFTGNldElGa2F5QXA0Q2dRajdDcThMUmNnZlNqNmE3X2F1UQ=="
 
@@ -141,7 +142,7 @@ def pay(order):
             }
         },
         "source": { "id": "src_card" },
-        "post": { "url": "https://api.alsahraa-abs.com/payment/data" },
+        "post": { "url": "https://201b-156-207-60-79.ngrok-free.app/payment/data" },
         "redirect": { "url": "https://alsahraa-abs.com/en/cart" }
     }
     headers = {
@@ -196,7 +197,7 @@ class Get_data(GenericAPIView):
                     "Authorization": "Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ"
                 }
             )
-            order = order.objects.get(auth_key=auth_key)
+            order = Order.objects.get(auth_key=auth_key)
             order.status = res.json()['status']
             order.save(update_fields=['status'])
         return Response("done")
