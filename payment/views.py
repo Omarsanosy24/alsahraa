@@ -63,7 +63,7 @@ def payment(request):
         return redirect(f"https://ksa.paymob.com/api/acceptance/iframes/24?payment_token={token2}")
     else:
         return render(request , 'pay.html')
-
+import json
 def pay(order):
     # data = requests.post(
     #     "https://api.tap.company/v2/authorize/",
@@ -151,12 +151,12 @@ def pay(order):
     }
 
     response = requests.post(url, json=payload, headers=headers)
-    return response
+    return response.json()
 class OrderView(ModelViewSet):
     serializer_class = OrderSerializer
     queryset = order.objects.none()
     http_method_names = ['post']
-    # permission_classes = [IsAuthenticated,HasAPIKey]
+    permission_classes = [IsAuthenticated]
 
     
     def create(self, request, *args, **kwargs):
@@ -170,6 +170,7 @@ class OrderView(ModelViewSet):
             obj.auth_key = auth_id
             obj.save()
         except:
+            traceback.print_exc()
             return Response("some Error")
         return Response(str(url))
     
