@@ -198,4 +198,5 @@ class Get_data(GenericAPIView):
             )
             order = order.objects.get(auth_key=auth_key)
             order.status = res.json()['status']
+            order.save(update_fields=['status'])
         return Response("done")
