@@ -165,7 +165,7 @@ class OrderView(ModelViewSet):
         obj = serializer.save()
         res = pay(obj)
         try:
-            url = res['url']
+            url = res["transaction"]['url']
             auth_id = res['id']
             obj.auth_key = auth_id
             obj.save()
