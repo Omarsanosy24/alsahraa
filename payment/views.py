@@ -8,63 +8,13 @@ from .serializers import *
 import traceback
 from .models import order
 from .models import order as Order
+from dotenv import load_dotenv
+import os
+load_dotenv()
 # Create your views here.
 api_key = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TkRrc0ltNWhiV1VpT2lJeE5qazVNamsxT0Rrd0xqRXdORGN5TkNKOS5mcGdWbFg3UDRvSWN5UGlBZUxpNUxINGdVZDVDbmUza0lKVWhyY25NNzctd2R0OEdqNkVFTGNldElGa2F5QXA0Q2dRajdDcThMUmNnZlNqNmE3X2F1UQ=="
 
-def payment(request):
-    if request.method == 'POST':
-        data = requests.post(
-            "https://ksa.paymob.com/api/auth/tokens",
-            json={
-                "api_key":api_key
-            },
-        )
-        token = data.json()['token']
-        create_order = requests.post(
-            "https://ksa.paymob.com/api/ecommerce/orders",
-            json={
-                "auth_token": token,
-                "delivery_needed": "false",
-                "amount_cents": "100",
-                "currency": "SAR",
-                "merchant_order_id":30,
-                "items": [],
-            }
-        )
-        
-        id_= create_order.json()['id']
-        payment_ = requests.post(
-            "https://ksa.paymob.com/api/acceptance/payment_keys",
-            json={
-            "auth_token": token,
-            "amount_cents": "100", 
-            "expiration": 3600, 
-            "order_id": id_,
-            "billing_data": {
-                "apartment": "803", 
-                "email": "claudette09@exa.com", 
-                "floor": "42", 
-                "first_name": "Clifford", 
-                "street": "Ethan Land", 
-                "building": "8028", 
-                "phone_number": "+86(8)9135210487", 
-                "shipping_method": "PKG", 
-                "postal_code": "01898", 
-                "city": "Jaskolskiburgh", 
-                "country": "CR", 
-                "last_name": "Nicolas", 
-                "state": "Utah"
-            }, 
-            "currency": "SAR", 
-            "integration_id": 38
-            }
-        )
-        token2 = payment_.json()['token']
-        # return render(request , 'pay.html')
-        return redirect(f"https://ksa.paymob.com/api/acceptance/iframes/24?payment_token={token2}")
-    else:
-        return render(request , 'pay.html')
-import json
+
 def pay(order):
     # data = requests.post(
     #     "https://api.tap.company/v2/authorize/",
@@ -148,7 +98,7 @@ def pay(order):
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "Authorization": "Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ"
+        "Authorization": f"Bearer {os.environ.get('SECRET_KEY')}"
     }
 
     response = requests.post(url, json=payload, headers=headers)
@@ -194,7 +144,7 @@ class Get_data(GenericAPIView):
                 url=f'https://api.tap.company/v2/charges/{auth_key}',
                 headers = {
                     "accept": "application/json",
-                    "Authorization": "Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ"
+                    "Authorization": f"Bearer {os.environ.get('SECRET_KEY')}"
                 }
             )
             order = Order.objects.get(auth_key=auth_key)
