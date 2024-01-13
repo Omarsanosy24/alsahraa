@@ -10,7 +10,6 @@ from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from payment.views import payment
 ...
 
 schema_view = get_schema_view(
@@ -39,8 +38,6 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('', include('proudects.urls')),
     path('payment/', include('payment.urls')),
-
-    path('payment', payment),
     re_path(r'^media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$',serve,{'document_root':settings.STATIC_ROOT}),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
