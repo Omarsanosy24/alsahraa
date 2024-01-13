@@ -8,6 +8,5 @@ router.register('order', views.OrderView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('payment',views.payment),
     path('data',views.Get_data.as_view())
 ]
