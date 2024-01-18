@@ -12,58 +12,22 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 # Create your views here.
-api_key = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TkRrc0ltNWhiV1VpT2lJeE5qazVNamsxT0Rrd0xqRXdORGN5TkNKOS5mcGdWbFg3UDRvSWN5UGlBZUxpNUxINGdVZDVDbmUza0lKVWhyY25NNzctd2R0OEdqNkVFTGNldElGa2F5QXA0Q2dRajdDcThMUmNnZlNqNmE3X2F1UQ=="
+class OrderPermission(BasePermission):
+    """
+    The request is authenticated as a user, or is a read-only request.
+    """
 
+    def has_permission(self, request, view):
+        if request.method in ['GET','PATCH','PUT']:
+            if request.user.is_staff:
+                return True
+            else:
+                return False
+        else:
+            return True
 
 def pay(order):
-    # data = requests.post(
-    #     "https://api.tap.company/v2/authorize/",
-    #     json={
-    #         "api_key":api_key
-    #     },
-    # )
-    # token = data.json()['token']
-    # create_order = requests.post(
-    #     "https://ksa.paymob.com/api/ecommerce/orders",
-    #     json={
-    #         "auth_token": token,
-    #         "delivery_needed": "false",
-    #         "amount_cents": str(order.total_price*100),
-    #         "currency": "SAR",
-    #         "merchant_order_id":int(order.id) + 30,
-    #         "items": [],
-    #     }
-    # )
     
-    # id_= create_order.json()['id']
-    # payment_ = requests.post(
-    #     "https://ksa.paymob.com/api/acceptance/payment_keys",
-    #     json={
-    #     "auth_token": token,
-    #     "amount_cents": str(order.total_price*100), 
-    #     "expiration": 3600, 
-    #     "order_id": id_,
-    #     "billing_data": {
-    #         "apartment": "803", 
-    #         "email": f"{order.user.email}", 
-    #         "floor": "42", 
-    #         "first_name": f"{order.user.username}", 
-    #         "street": f"{order.country}", 
-    #         "building": "8028", 
-    #         "phone_number": f"{order.phone}", 
-    #         "shipping_method": "PKG", 
-    #         "postal_code": "01898", 
-    #         "city": "Jaskolskiburgh", 
-    #         "country": "SA", 
-    #         "last_name": "Nicolas", 
-    #         "state": "Utah"
-    #     }, 
-    #     "currency": "SAR", 
-    #     "integration_id": 38
-    #     }
-    # )
-    # token2 = payment_.json()['token']
-    # return f"https://ksa.paymob.com/api/acceptance/iframes/24?payment_token={token2}"
 
     url = "https://api.tap.company/v2/charges"
 
@@ -105,9 +69,9 @@ def pay(order):
     return response.json()
 class OrderView(ModelViewSet):
     serializer_class = OrderSerializer
-    queryset = order.objects.none()
-    http_method_names = ['post']
-    permission_classes = [IsAuthenticated]
+    queryset = order.objects.filter(auth_key__isnull=False).all()
+    http_method_names = ['post','get']
+    permission_classes = [OrderPermission]
 
     
     def create(self, request, *args, **kwargs):
