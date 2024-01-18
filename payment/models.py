@@ -10,6 +10,7 @@ class order(models.Model):
     homeDes = models.TextField(blank=True,null=True)
     country = models.TextField(null=True,blank=True)
     phone = models.CharField(max_length=20)
+    date = models.DateTimeField(auto_now_add=True, null=True)
     auth_key = models.TextField(blank=True, null=True)
     status = models.CharField(null=True, blank=True, max_length=20)
     def __str__(self) -> str:
