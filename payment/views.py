@@ -73,6 +73,12 @@ class OrderView(ModelViewSet):
     http_method_names = ['post','get']
     permission_classes = [OrderPermission]
 
+    def paginate_queryset(self, queryset):
+        if not getattr(queryset, "ordered", False):
+            queryset = queryset.order_by("-id")
+        if "nopagination" in self.request.query_params:
+            return None
+        return super().paginate_queryset(queryset)
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
