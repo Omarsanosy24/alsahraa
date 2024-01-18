@@ -12,7 +12,7 @@ class order(models.Model):
     phone = models.CharField(max_length=20)
     date = models.DateTimeField(auto_now_add=True, null=True)
     auth_key = models.TextField(blank=True, null=True)
-    status = models.CharField(null=True, blank=True, max_length=20)
+    status = models.CharField(default="ABANDONED", max_length=20)
     def __str__(self) -> str:
         return self.user.username
     # def save(self,*args, **kwargs):
