@@ -93,9 +93,6 @@ class OrderView(ModelViewSet):
     #     return super().create(request, *args, **kwargs)
 
 from rest_framework.generics import GenericAPIView
-import hmac
-import hashlib
-import base64
 
 class Get_data(GenericAPIView):
     queryset = order.objects.all()
@@ -115,3 +112,15 @@ class Get_data(GenericAPIView):
             order.status = res.json()['status']
             order.save(update_fields=['status'])
         return Response("done")
+
+    def get(self, request):
+        auth_key = request.query_params.get('auth_key', None)
+        if auth_key:
+            qs = self.queryset.filter(auth_key=auth_key)
+            if qs.exists():
+                qs = qs.first()
+        else:
+            return Response("no params")
+
+        
+        return Response((str(qs.status) if qs else "no order"))
