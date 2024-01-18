@@ -101,11 +101,11 @@ class ProductsView(ModelViewSet):
         else:
             return Response(serializers.errors)
     
-    @action(detail=False, permission_classes=[IsAdminUser], methods=['POST'],serializer_class= UserIsStaff)
+    @action(detail=False, permission_classes=[AllowAny], methods=['POST'],serializer_class= UserIsStaff)
     def UserIsStaff(self,request):
         ser = UserIsStaff(data=request.data)
         if ser.is_valid():
-            email = request.data.get('email')
+            email = request.data.get('user')
             try:
                 user = User.objects.get(email=email)
                 if user.is_staff:
@@ -113,6 +113,8 @@ class ProductsView(ModelViewSet):
                 else:
                     user.is_staff = True
                 user.save()
+                return Response(_('all is done'))
+
             except:
                 return Response(_('this email is incorrect'))
         else:
