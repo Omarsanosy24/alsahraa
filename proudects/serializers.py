@@ -118,8 +118,8 @@ class ProductsSerializers(serializers.ModelSerializer):
     sizes = sizesSerializers(many=True)
     rateNum = serializers.SerializerMethodField(read_only=True)
     rates = RateSerializers(many=True, read_only=True)
-    wish = serializers.SerializerMethodField()
-    tagat = serializers.SerializerMethodField()
+    wish = serializers.SerializerMethodField(read_only=True)
+    tagat = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
         fields = [
@@ -187,13 +187,8 @@ class ProductsSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         colors_data = validated_data.pop('colors', None)
         sizes_data = validated_data.pop('sizes', None)
-        
+        validated_data["category_id"]=validated_data.pop('category_patch',None)
         instance = super().create(validated_data)
-        
-        instance.save()
-        for i in validated_data.pop('tags',None):
-            instance.tags.add(i)
-        instance.save()
         if colors_data:
             for color in colors_data:
                 instance.colors.create(color_ar=color['color_ar'], color_en=color["color_en"])

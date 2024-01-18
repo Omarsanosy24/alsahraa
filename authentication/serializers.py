@@ -100,7 +100,7 @@ class LoginSerializer(serializers.ModelSerializer):
                 'kind':user.kind,
                 'is_staff':user.is_staff
             }
-            return super().validate(attrs)
+            
 
         except Exception as e:
             raise serializers.ValidationError(str(e))
