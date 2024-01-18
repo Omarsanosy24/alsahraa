@@ -57,7 +57,7 @@ def pay(order):
         },
         "source": { "id": "src_card" },
         "post": { "url": "https://api.alsahraa-abs.com/payment/data" },
-        "redirect": { "url": "https://alsahraa-abs.com/en/cart" }
+        "redirect": { "url": "https://alsahraa-abs.com/en/success" }
     }
     headers = {
         "accept": "application/json",
