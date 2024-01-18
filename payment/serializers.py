@@ -23,9 +23,14 @@ class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSer(many=True,read_only=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     order_items = serializers.ListSerializer(child=serializers.DictField(),write_only=True)
+    total_price = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = order
         fields = '__all__'
+
+    def get_total_price(self, obj):
+        return obj.total_price
+
 
     def create(self, validated_data):
         order_items_data = validated_data.pop('order_items')
