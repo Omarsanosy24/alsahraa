@@ -187,24 +187,8 @@ class ProductsSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         colors_data = validated_data.pop('colors', None)
         sizes_data = validated_data.pop('sizes', None)
-        cat = validated_data.pop('category_patch')
-        name_ar = validated_data.pop('name_ar')
-        name_en = validated_data.pop('name_en')
-        price = validated_data.pop('price')
-        old_price = validated_data.pop('old_price',None)
-        description_ar = validated_data.pop('description_ar')
-        description_en = validated_data.pop('description_en')
-        stock = validated_data.pop('stock',None)
-        instance = Product(
-            category = Category.objects.get(id=cat),
-            name_ar=name_ar,
-            name_en=name_en,
-            price=price,
-            old_price=old_price,
-            description_ar=description_ar,
-            description_en=description_en,
-            stock=stock
-            )
+        
+        instance = super().create(validated_data)
         
         instance.save()
         for i in validated_data.pop('tags',None):
