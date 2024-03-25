@@ -29,7 +29,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 class RegisterView(generics.GenericAPIView):
 
     serializer_class = RegisterSerializer
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
     def post(self, request):
         data = request.data
