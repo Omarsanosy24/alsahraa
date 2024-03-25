@@ -74,13 +74,13 @@ AWS_DEFAULT_ACL = None
 # s3 public media settings
 PUBLIC_MEDIA_LOCATION = "media"
 ROOT_URLCONF = 'alsahraa.urls'
-CORS_ALLOW_ALL_ORIGIN = True
 STORAGES = {"default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
             "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"}
             }
 AWS_S3_CUSTOM_DOMAIN = 'alsahraa.s3.me-central-1.amazonaws.com'
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -88,8 +88,10 @@ CORS_ALLOW_METHODS = [
     'PATCH',
     'POST',
     'PUT',
+    "*"
 ]
 CORS_ALLOW_HEADERS = [
+    'accept-language',
     'accept',
     'accept-encoding',
     'authorization',
@@ -100,9 +102,10 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
     'x-api-key',
+    "sub",
+    "*"
 ]
-# CSRF_TRUSTED_ORIGINS = ['http://*','https://*',]
-CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*', 'https://localhost:3000', 'http://*.3.82.221.135']
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*', 'https://*.timely.com.de', 'http://*.3.82.221.135']
 
 TEMPLATES = [
     {
