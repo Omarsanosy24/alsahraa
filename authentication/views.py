@@ -87,7 +87,7 @@ class VerifyEmail(views.APIView):
 
 class LoginAPIView(generics.GenericAPIView):
     serializer_class = LoginSerializer
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
     def post(self, request):
 
