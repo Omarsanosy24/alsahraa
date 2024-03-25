@@ -161,7 +161,7 @@ class Links(models.Model):
         ('twitter',"twitter"),
     ]
     kind = models.CharField(choices=choices, max_length=20, unique=True)
-    value = models.CharField(max_length=50)
+    value = models.TextField()
     
     def __str__(self) -> str:
         return self.kind
