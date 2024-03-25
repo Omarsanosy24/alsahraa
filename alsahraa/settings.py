@@ -101,7 +101,9 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
     'x-api-key',
 ]
-CSRF_TRUSTED_ORIGINS = ['http://*','https://*',]
+# CSRF_TRUSTED_ORIGINS = ['http://*','https://*',]
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*', 'https://localhost:3000', 'http://*.3.82.221.135']
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
